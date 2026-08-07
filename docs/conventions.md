@@ -52,6 +52,11 @@ Se utilizarán las siguientes convenciones lingüísticas:
 - El código utilizará las convenciones habituales de cada lenguaje.
 - Los identificadores seguirán el idioma predominante de la tecnología utilizada, normalmente inglés.
 
+**Excepción de idioma**: las plantillas (templates) y los ejemplos (examples)
+se redactan en inglés, por ser artefactos reutilizables orientados al código y
+al trabajo con IA. El resto de la documentación asociada a un recurso (SKILL.md,
+guías, checklists) se mantiene en español.
+
 ---
 
 # Nomenclatura

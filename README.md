@@ -50,10 +50,10 @@ El detalle de cada dominio y de los tipos de recursos se documenta en [docs/arch
 
 Cada dominio organiza sus recursos en torno a cuatro tipos principales:
 
-- **Skills** — encapsulan conocimiento reutilizable.
-- **Agents** — coordinan el trabajo y deciden cómo abordar una tarea.
-- **Commands** — automatizan procesos repetitivos.
-- **MCPs** — proporcionan capacidades externas.
+- **skills** — encapsulan conocimiento reutilizable.
+- **agents** — coordinan el trabajo y deciden cómo abordar una tarea.
+- **commands** — automatizan procesos repetitivos.
+- **mcps** — proporcionan capacidades externas.
 
 Los **templates**, **examples** y **tests** son recursos **auxiliares**: apoyan a los tipos principales sin constituir una categoría arquitectónica propia.
 

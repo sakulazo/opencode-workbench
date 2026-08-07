@@ -12,7 +12,7 @@ Este documento es independiente de tecnología. Las decisiones de implementació
 
 SDD invierte el flujo habitual de desarrollo asistido por IA.
 
-En el desarrollo conversacional ("vibe coding") se describe, se genera código y se itera hasta que "funciona". En SDD, primero se especifica, después se revisa, después se planifica y finalmente se genera código para validarlo contra la especificación.
+En el desarrollo conversacional ("vibe coding") se describe, se genera código y se itera hasta que "funciona". En SDD, primero se recoge el contexto, después se especifica, se diseña, se planifica y finalmente se implementa para validarlo contra la especificación.
 
 La premisa central:
 
@@ -76,7 +76,7 @@ Una buena especificación define el **comportamiento externo** del software, no 
 
 | Aspecto | Vibe coding | SDD |
 | --- | --- | --- |
-| Proceso | Describir → Generar → Probar | Especificar → Revisar → Planificar → Generar → Validar |
+| Proceso | Describir → Generar → Probar | Contexto → Especificar → Diseñar → Planificar → Implementar → Validar |
 | Decisiones de diseño | La IA las toma | El humano las toma |
 | Especificación | Vive en el historial del chat | Artefacto versionado |
 | Aceptación | Aceptar si funciona | Aceptar si cumple la spec |

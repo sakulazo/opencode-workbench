@@ -28,16 +28,16 @@ El humano orquesta y revisa; la IA implementa. Las decisiones de diseño se toma
 
 ## Proceso en una frase
 
-> **Specify → Review → Plan → Implement → Validate**, con la especificación versionada como artefacto y el humano aprobando cada fase.
+> **Contexto → Especificar → Diseñar → Planificar → Implementar → Validar**, con la especificación versionada como artefacto y el humano aprobando cada fase.
 
 Fases resumidas:
 
-1. **Contexto** — recopilar objetivo, contexto del proyecto y restricciones.
-2. **Especificar** — escribir `requirements.md` (alcance, criterios de aceptación, edge cases).
-3. **Diseñar** — escribir `design.md` (decisiones, contratos, arquitectura).
-4. **Planificar** — descomponer en `tasks.md` (tareas numeradas y verificables).
-5. **Implementar** — ejecutar una tarea a la vez, verificando cada una.
-6. **Validar** — comprobar el cumplimiento contra la especificación.
+0. **Contexto** — recopilar objetivo, contexto del proyecto y restricciones.
+1. **Especificar** — escribir `requirements.md` (alcance, criterios de aceptación, edge cases).
+2. **Diseñar** — escribir `design.md` (decisiones, contratos, arquitectura).
+3. **Planificar** — descomponer en `tasks.md` (tareas numeradas y verificables).
+4. **Implementar** — ejecutar una tarea a la vez, verificando cada una.
+5. **Validar** — comprobar el cumplimiento contra la especificación.
 
 Detalle completo en [workflow.md](workflow.md).
 

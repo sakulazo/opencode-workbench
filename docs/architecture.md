@@ -81,9 +81,9 @@ El Workbench se construye únicamente sobre cuatro tipos de recursos principales
 
 ---
 
-## Skill
+## skills
 
-Un **Skill** encapsula conocimiento reutilizable.
+Un **skill** encapsula conocimiento reutilizable.
 
 Describe cómo abordar una tarea o resolver un problema determinado.
 
@@ -98,13 +98,13 @@ No coordina procesos ni interactúa directamente con herramientas externas.
 
 ---
 
-## Agent
+## agents
 
-Un **Agent** coordina el trabajo.
+Un **agent** coordina el trabajo.
 
 Su responsabilidad consiste en analizar una situación, decidir cómo abordarla y utilizar los recursos necesarios para alcanzar un objetivo.
 
-Un Agent puede utilizar múltiples Skills, Commands y MCPs durante una misma tarea.
+Un agent puede utilizar múltiples skills, commands y mcps durante una misma tarea.
 
 ### Responsabilidades
 
@@ -115,9 +115,9 @@ Un Agent puede utilizar múltiples Skills, Commands y MCPs durante una misma tar
 
 ---
 
-## Command
+## commands
 
-Un **Command** automatiza tareas repetitivas.
+Un **command** automatiza tareas repetitivas.
 
 Su objetivo es proporcionar una forma consistente de ejecutar procesos habituales.
 
@@ -129,9 +129,9 @@ Su objetivo es proporcionar una forma consistente de ejecutar procesos habituale
 
 ---
 
-## MCP
+## mcps
 
-Un **MCP** proporciona capacidades externas.
+Un **mcp** proporciona capacidades externas.
 
 No contiene conocimiento ni define comportamiento.
 
@@ -163,11 +163,10 @@ Entre ellos pueden encontrarse:
 
 - Templates.
 - Examples.
-- Test data.
 - Documentation específica.
 - Recursos de apoyo.
 
-Estos elementos podrán existir asociados a cualquier Skill, Agent, Command o tecnología cuando resulte útil.
+Estos elementos podrán existir asociados a cualquier skill, agent, command o tecnología cuando resulte útil.
 
 ---
 
@@ -176,19 +175,19 @@ Estos elementos podrán existir asociados a cualquier Skill, Agent, Command o te
 Los recursos colaboran respetando siempre su responsabilidad.
 
 ```text
-                  Agent
+                  agent
         ┌─────────┼─────────┐
         │         │         │
-      Skill    Command     MCP
+      skill    command     mcp
 ```
 
-El Agent coordina.
+El agent coordina.
 
-Los Skills aportan conocimiento.
+Los skills aportan conocimiento.
 
-Los Commands ejecutan procesos.
+Los commands ejecutan procesos.
 
-Los MCPs proporcionan capacidades externas.
+Los mcps proporcionan capacidades externas.
 
 ---
 
@@ -196,12 +195,12 @@ Los MCPs proporcionan capacidades externas.
 
 Se favorecerán las siguientes relaciones:
 
-- Un Agent puede utilizar múltiples Skills.
-- Un Agent puede ejecutar Commands.
-- Un Agent puede utilizar MCPs.
-- Un Skill puede disponer de Templates y Examples propios.
-- Un Command puede disponer de documentación y ejemplos.
-- Un Agent puede incluir documentación específica de su comportamiento.
+- Un agent puede utilizar múltiples skills.
+- Un agent puede ejecutar commands.
+- Un agent puede utilizar mcps.
+- Un skill puede disponer de templates y examples propios.
+- Un command puede disponer de documentación y ejemplos.
+- Un agent puede incluir documentación específica de su comportamiento.
 
 Se evitarán dependencias innecesarias entre recursos del mismo tipo.
 

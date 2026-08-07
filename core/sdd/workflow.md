@@ -12,9 +12,10 @@ Los principios y criterios que justifican este proceso están en [methodology.md
 
 ```text
   Contexto ──▶ Especificar ──▶ Diseñar ──▶ Planificar ──▶ Implementar ──▶ Validar
-  (fase 0)      (req)         (design)      (tasks)        (1 a la vez)      (verificación)
-                  │              │              │                │
-                  └──── Revisión y aprobación humana en cada fase ────┘
+  (fase 0)      (req)         (design)     (tasks)       (1 a la vez)    (verificación)
+      ▲              ▲              ▲            ▲               ▲              ▲
+      └──────────────┴──────────────┴────────────┴───────────────┴──────────────┘
+                  Revisión y aprobación humana en cada fase
 ```
 
 Los artefactos de especificación se versionan en el repositorio, normalmente en un directorio `.specs/` (p. ej. `.specs/requirements.md`, `.specs/design.md`, `.specs/tasks.md`).
@@ -171,7 +172,7 @@ como un hallazgo del mismo modo:
   avísala explícitamente al humano y propón actualizar requirements / design /
   tasks **antes de dar la tarea por cerrada**.
 - No modifiques la spec sin aprobación humana. Si el cambio sí pasó por el
-  flujo (implement → validar), deja que la validación lo gestione y no
+  flujo (implementar → validar), deja que la validación lo gestione y no
   dupliques el aviso.
 
 No aplica a cambios triviales de vista sin impacto de comportamiento (p. ej.
