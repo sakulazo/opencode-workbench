@@ -38,7 +38,7 @@ Todo recurso deberá clasificarse siguiendo este orden de decisión:
 4. ¿Documenta el propio Workbench?
    - **Docs**
 
-La naturaleza del recurso (skill, agent, command, template, ejemplo, etc.) nunca será el criterio principal de clasificación.
+La naturaleza del recurso (skill, agent, command, mcp, template, ejemplo, etc.) nunca será el criterio principal de clasificación.
 
 ---
 
@@ -136,3 +136,13 @@ Estas convenciones no son inmutables.
 Podrán modificarse cuando exista una razón técnica o metodológica que mejore la calidad, coherencia o mantenibilidad del Workbench.
 
 Toda modificación deberá perseguir un beneficio claro para el conjunto del repositorio.
+
+---
+
+# Validación de consistencia
+
+La coherencia del repositorio se verifica con el command
+[check-consistency.md](../workflows/commands/check-consistency.md):
+comprobaciones mecánicas mediante `scripts/check-consistency.sh` y revisión
+semántica guiada. Se recomienda ejecutarlo tras cada cambio, antes de cerrar la
+tarea o el commit.

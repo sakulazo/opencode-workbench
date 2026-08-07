@@ -71,7 +71,7 @@ Listas de verificación operativas para ejecutar el [workflow.md](workflow.md). 
 - [ ] No se amplía el alcance de una tarea en curso.
 - [ ] Los hallazgos que cambian alcance se registran y vuelven a la spec.
 - [ ] La IA no decide diseño no especificado; pregunta o registra supuesto.
-- [ ] Los cambios de alcance que llegan **fuera del flujo SDD** (sesión normal, sin pasar por specify → plan → tasks) se avisan al humano y se propone actualizar la spec antes de cerrar.
+- [ ] Los cambios de alcance que llegan **fuera del flujo SDD** (sesión normal, sin pasar por especificar → diseñar → planificar) se avisan al humano y se propone actualizar la spec antes de cerrar.
 
 ---
 

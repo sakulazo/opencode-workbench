@@ -81,7 +81,7 @@ El Workbench se construye únicamente sobre cuatro tipos de recursos principales
 
 ---
 
-## skills
+## Skills
 
 Un **skill** encapsula conocimiento reutilizable.
 
@@ -98,7 +98,7 @@ No coordina procesos ni interactúa directamente con herramientas externas.
 
 ---
 
-## agents
+## Agents
 
 Un **agent** coordina el trabajo.
 
@@ -115,7 +115,7 @@ Un agent puede utilizar múltiples skills, commands y mcps durante una misma tar
 
 ---
 
-## commands
+## Commands
 
 Un **command** automatiza tareas repetitivas.
 
@@ -129,7 +129,7 @@ Su objetivo es proporcionar una forma consistente de ejecutar procesos habituale
 
 ---
 
-## mcps
+## MCPs
 
 Un **mcp** proporciona capacidades externas.
 
@@ -153,6 +153,25 @@ Ejemplos:
 
 ---
 
+# Ubicación de los recursos
+
+Los tipos principales tienen una ubicación habitual según su naturaleza:
+
+- **skills** → **Core** — el conocimiento reutilizable se agrupa por ámbito
+  conceptual (p. ej. `core/sdd`). Un skill específico de una tecnología vive
+  en **Technologies** junto a los recursos de esa tecnología.
+- **agents**, **commands**, **mcps** → **Workflows** — son recursos de
+  orquestación y ejecución (p. ej. `workflows/agents`, `workflows/commands`,
+  `workflows/mcps`).
+- **Docs** documenta el propio Workbench.
+
+Esta distribución no es excluyente: un dominio puede combinar los tipos que
+necesite. La organización seguirá siendo siempre conceptual, y la naturaleza
+del recurso (skill, agent, command, mcp) nunca será el criterio principal de
+clasificación.
+
+---
+
 # Recursos auxiliares
 
 Existen recursos cuya función es apoyar a los recursos principales.
@@ -163,10 +182,11 @@ Entre ellos pueden encontrarse:
 
 - Templates.
 - Examples.
-- Documentation específica.
+- Tests.
+- Documentación específica.
 - Recursos de apoyo.
 
-Estos elementos podrán existir asociados a cualquier skill, agent, command o tecnología cuando resulte útil.
+Estos elementos podrán existir asociados a cualquier skill, agent, command, mcp o tecnología cuando resulte útil.
 
 ---
 

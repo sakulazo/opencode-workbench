@@ -2,7 +2,7 @@
 
 ## Propósito
 
-Definir los principios y criterios del **Spec-Driven Development (SDD)** en su orientación moderna: una metodología de desarrollo asistido por IA en la que la especificación es el artefacto central y la fuente de verdad.
+Definir los principios y criterios del **Specification-Driven Development (SDD)** en su orientación moderna: una metodología de desarrollo asistido por IA en la que la especificación es el artefacto central y la fuente de verdad.
 
 Este documento es independiente de tecnología. Las decisiones de implementación concretas se describen en [workflow.md](workflow.md).
 

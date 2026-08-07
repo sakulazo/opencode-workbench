@@ -1,4 +1,4 @@
-<!-- Example spec (Spec-Driven Development) — see the SDD skill for context.
+<!-- Example spec (Specification-Driven Development) — see the SDD skill for context.
      This design spec implements examples/rate-limiting/requirements.md. -->
 
 # Design — API rate limiting

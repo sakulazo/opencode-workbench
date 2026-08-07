@@ -1,4 +1,4 @@
-<!-- Example spec (Spec-Driven Development) — see the SDD skill for context.
+<!-- Example spec (Specification-Driven Development) — see the SDD skill for context.
      This task breakdown implements examples/rate-limiting/{requirements,design}.md.
      Tasks are executed ONE AT A TIME, in order, verifying each acceptance criterion
      before moving to the next. -->

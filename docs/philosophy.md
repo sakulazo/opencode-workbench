@@ -16,7 +16,7 @@ Este repositorio no pretende almacenar código de una aplicación.
 
 Su finalidad es capturar conocimiento.
 
-Cada skill, agent, command o plantilla representa una pieza de conocimiento que debe poder utilizarse en múltiples contextos.
+Cada skill, agent, command, mcp o plantilla representa una pieza de conocimiento que debe poder utilizarse en múltiples contextos.
 
 ---
 

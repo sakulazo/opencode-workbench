@@ -1,9 +1,9 @@
 ---
 name: sdd
-description: Spec-Driven Development (SDD) for AI-assisted development. Use when starting a new feature, complex task, refactor, or AI-assisted implementation that requires specifications, acceptance criteria, and task breakdown before coding.
+description: Specification-Driven Development (SDD) for AI-assisted development. Use when starting a new feature, complex task, refactor, or AI-assisted implementation that requires specifications, acceptance criteria, and task breakdown before coding.
 ---
 
-# Spec-Driven Development (SDD)
+# Specification-Driven Development (SDD)
 
 Metodología de desarrollo asistido por IA en la que **la especificación es la fuente de verdad** y el código se genera después, a partir de ella.
 

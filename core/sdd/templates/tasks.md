@@ -1,5 +1,5 @@
 <!--
-  Task breakdown template (Spec-Driven Development).
+  Task breakdown template (Specification-Driven Development).
 
   Copy this file to your spec directory (e.g. .specs/tasks.md) and fill it.
   Each task must be small, scoped to concrete files, and have a verifiable

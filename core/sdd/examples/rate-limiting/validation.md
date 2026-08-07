@@ -1,4 +1,4 @@
-<!-- Example spec (Spec-Driven Development) — see the SDD skill for context.
+<!-- Example spec (Specification-Driven Development) — see the SDD skill for context.
      This validation records the conformance check for the spec in
      examples/rate-limiting/{requirements,design,tasks}.md. -->
 

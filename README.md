@@ -33,6 +33,7 @@ El Workbench se divide en cuatro grandes dominios de conocimiento.
 ├── core/
 ├── technologies/
 ├── workflows/
+├── scripts/
 ├── docs/
 └── README.md
 ```
@@ -40,6 +41,7 @@ El Workbench se divide en cuatro grandes dominios de conocimiento.
 - **Core** — conocimiento universal e independiente de tecnología: metodologías, principios y patrones reutilizables.
 - **Technologies** — conocimiento específico de una tecnología concreta (Docker, React, TypeScript, Laravel, PostgreSQL, ...).
 - **Workflows** — orquestación del desarrollo asistido por IA: cómo combinar Core y Technologies para resolver tareas reales.
+- **Scripts** — herramientas de mantenimiento del propio Workbench (p. ej. `check-consistency.sh`).
 - **Docs** — documentación del propio Workbench: arquitectura, filosofía y convenciones.
 
 El detalle de cada dominio y de los tipos de recursos se documenta en [docs/architecture.md](docs/architecture.md).
@@ -55,7 +57,9 @@ Cada dominio organiza sus recursos en torno a cuatro tipos principales:
 - **commands** — automatizan procesos repetitivos.
 - **mcps** — proporcionan capacidades externas.
 
-Los **templates**, **examples** y **tests** son recursos **auxiliares**: apoyan a los tipos principales sin constituir una categoría arquitectónica propia.
+Los **templates**, **examples**, **tests**, la **documentación específica** y los **recursos de apoyo** son recursos **auxiliares**: apoyan a los tipos principales sin constituir una categoría arquitectónica propia.
+
+En la práctica, los **skills** se alojan habitualmente en **Core** (o en **Technologies** cuando son específicos de una tecnología), y los **agents**, **commands** y **mcps** en **Workflows**. El detalle de esta correspondencia está en [docs/architecture.md](docs/architecture.md).
 
 La estructura interna debe responder siempre a las necesidades del dominio, manteniendo la máxima cohesión posible.
 

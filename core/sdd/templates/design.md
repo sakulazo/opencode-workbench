@@ -1,5 +1,5 @@
 <!--
-  Design specification template (Spec-Driven Development).
+  Design specification template (Specification-Driven Development).
 
   Copy this file to your spec directory (e.g. .specs/design.md) and fill
   every section. This document decides HOW the requirements are implemented.

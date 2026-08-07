@@ -1,5 +1,5 @@
 <!--
-  Validation template (Spec-Driven Development).
+  Validation template (Specification-Driven Development).
 
   Copy this file to your spec directory (e.g. .specs/validation.md) and fill
   it during the validation phase. It maps every requirement and edge case to

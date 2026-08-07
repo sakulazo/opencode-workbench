@@ -1,4 +1,4 @@
-<!-- Example spec (Spec-Driven Development) — see the SDD skill for context.
+<!-- Example spec (Specification-Driven Development) — see the SDD skill for context.
      This is a complete, minimal requirements spec for a concrete feature. -->
 
 # Requirements — API rate limiting

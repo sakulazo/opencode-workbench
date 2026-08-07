@@ -1,5 +1,5 @@
 <!--
-  Requirements specification template (Spec-Driven Development).
+  Requirements specification template (Specification-Driven Development).
 
   Copy this file to your spec directory (e.g. .specs/requirements.md) and
   fill every section. Replace the angle-bracket placeholders. Keep the

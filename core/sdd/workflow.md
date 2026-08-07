@@ -2,7 +2,7 @@
 
 ## Propósito
 
-Definir el proceso operativo del **Spec-Driven Development**: fases, artefactos, acciones y Definition of Done. Ninguna fase puede saltarse sin una decisión explícita del humano.
+Definir el proceso operativo del **Specification-Driven Development**: fases, artefactos, acciones y Definition of Done. Ninguna fase puede saltarse sin una decisión explícita del humano.
 
 Los principios y criterios que justifican este proceso están en [methodology.md](methodology.md). Las listas de verificación operativas están en [checklists.md](checklists.md).
 
@@ -18,7 +18,7 @@ Los principios y criterios que justifican este proceso están en [methodology.md
                   Revisión y aprobación humana en cada fase
 ```
 
-Los artefactos de especificación se versionan en el repositorio, normalmente en un directorio `.specs/` (p. ej. `.specs/requirements.md`, `.specs/design.md`, `.specs/tasks.md`).
+Los artefactos de especificación se versionan en el repositorio, normalmente en un directorio `.specs/` (p. ej. `.specs/requirements.md`, `.specs/design.md`, `.specs/tasks.md`, `.specs/validation.md`).
 
 ---
 
@@ -164,7 +164,7 @@ La spec es el documento vivo; el código siempre sigue a la spec, nunca al revé
 ### Cambios fuera del flujo SDD
 
 Un cambio de alcance puede llegar por una vía distinta al flujo (p. ej. ajustes
-pedidos en una sesión normal, sin pasar por specify → plan → tasks). Trátalo
+pedidos en una sesión normal, sin pasar por especificar → diseñar → planificar). Trátalo
 como un hallazgo del mismo modo:
 
 - Compara el resultado con los artefactos de la spec de la feature afectada.
