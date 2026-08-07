@@ -83,6 +83,10 @@ check_pattern "Terminology: 'validación de conformidad' (not 'Conformidad post-
 # 1e. Terminology: the rate-limiting example uses "configured limit", not "capacity".
 check_pattern "Example terminology: 'configured limit' (not 'capacity' in burst criteria)" "burst[[:space:]]+(up to|exceeding)[[:space:]]+capacity|equals[[:space:]]+the[[:space:]]+capacity"
 
+# 1f. OpenCode install paths use plural dirs (commands/, agents/), not the legacy
+# singular (command/, agent/) which OpenCode only keeps for backwards compatibility.
+check_pattern "OpenCode install paths: plural 'commands/'/'agents/' (not singular 'command/'/'agent/')" "opencode/(command|agent)/"
+
 # 2. No mixed Spanish/English phrases like "specify ->".
 check_pattern "No mixed-language phrase 'specify ->'" "specify[[:space:]]*->"
 

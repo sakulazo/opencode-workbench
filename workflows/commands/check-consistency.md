@@ -25,7 +25,7 @@ Verificar que el repositorio cumple las convenciones definidas en
 4. Si algo es FAIL, indica exactamente qué falta y dónde debería corregirse.
 
 Este recurso es un command reutilizable: para usarlo como command de OpenCode,
-cópialo a `.opencode/command/check-consistency.md` en el proyecto donde quieras
+cópialo a `.opencode/commands/check-consistency.md` en el proyecto donde quieras
 aplicarlo (junto con `check-consistency.sh` en la misma carpeta).
 
 ## Qué soluciona
@@ -58,6 +58,8 @@ Cubiertas por `check-consistency.sh` (en esta misma carpeta):
   "Conformidad post-implementación").
 - Terminología del ejemplo `rate-limiting`: "configured limit" en los
   criterios de ráfaga (sin "capacity").
+- Rutas de instalación de OpenCode en plural: `commands/` y `agents/` (sin las
+  obsoletas `command/` y `agent`).
 - Sin frases mixtas español/inglés en prosa (p. ej. "edge cases", "la feature",
   "specify ->").
 - Recursos auxiliares: sin términos obsoletos (p. ej. "Test data").

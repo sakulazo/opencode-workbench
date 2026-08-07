@@ -24,7 +24,7 @@
 - **Scope**: Add `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` to every response that passes through the rate limiter (processed and 429). Make limit and window configurable via `RATE_LIMIT_LIMIT` / `RATE_LIMIT_WINDOW`, failing fast on invalid values.
 - **Files**: `src/middleware/rate-limit.js`, `src/server.js`, `test/rate-limit.middleware.test.js`
 - **Depends on**: T2
-- **Acceptance**: Tests verify all three headers on processed responses and on 429 responses (FR-2) and that invalid startup config aborts the service (FR-4). Manual run with `RATE_LIMIT_LIMIT=100` / `RATE_LIMIT_WINDOW=60` accepts a burst of 100 back-to-back requests and rejects the 101st.
+- **Acceptance**: Tests verify all three headers on processed responses and on 429 responses (FR-2) and that invalid startup config aborts the service (FR-4). Manual run with `RATE_LIMIT_LIMIT=100` / `RATE_LIMIT_WINDOW=60` and a fresh client accepts a burst of 100 back-to-back requests and rejects the 101st.
 
 ## Traceability
 

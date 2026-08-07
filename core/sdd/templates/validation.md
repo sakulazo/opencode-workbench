@@ -4,7 +4,8 @@
   Copy this file to your spec directory (e.g. .specs/validation.md) and fill
   it during the validation phase. It maps every requirement and edge case to
   the test or evidence that proves it. The result must be PASS/FAIL per row
-  with evidence. See the SDD skill: workflow phase 5 and tests/validate-spec.md.
+  with evidence. See the SDD skill: workflow phase 5 and the skill's
+  tests/validate-spec.md.
 -->
 
 # Validation — <Feature or change name>
@@ -19,7 +20,7 @@
 
 ## Conformance check
 
-<Results of running the SDD spec validation — tests/validate-spec.md (validation moment).>
+<Results of running the SDD spec validation — the skill's tests/validate-spec.md (validation moment).>
 
 | Section (validate-spec.md) | PASS | FAIL | N/A |
 | --- | --- | --- | --- |

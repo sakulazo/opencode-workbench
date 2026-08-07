@@ -41,21 +41,21 @@ proyectos.
 
 ### Commands
 
-Un command es un archivo Markdown en `.opencode/command/` y se invoca con
+Un command es un archivo Markdown en `.opencode/commands/` y se invoca con
 `/nombre`. Si el command necesita recursos asociados (p. ej. scripts), cópialos
 junto a él.
 
 Ejemplo con el check de consistencia:
 
 ```bash
-mkdir -p <proyecto>/.opencode/command/
-cp workflows/commands/check-consistency.md <proyecto>/.opencode/command/
-cp workflows/commands/check-consistency.sh <proyecto>/.opencode/command/
+mkdir -p <proyecto>/.opencode/commands/
+cp workflows/commands/check-consistency.md <proyecto>/.opencode/commands/
+cp workflows/commands/check-consistency.sh <proyecto>/.opencode/commands/
 ```
 
 ### Agents y mcps
 
-- Los agents se copian a `.opencode/agent/` (o `~/.config/opencode/agent/`).
+- Los agents se copian a `.opencode/agents/` (o `~/.config/opencode/agents/`).
 - Los mcps se configuran en `opencode.json` del proyecto (bloque `mcp`); el
   dominio `workflows/mcps` del Workbench almacena plantillas y documentación
   de referencia para esas configuraciones.
@@ -64,17 +64,21 @@ cp workflows/commands/check-consistency.sh <proyecto>/.opencode/command/
 
 ## Uso del skill SDD
 
-1. Confirma que la tarea justifica SDD (ver `core/sdd/SKILL.md`, "Cuándo usar").
-2. Copia las plantillas de `core/sdd/templates/` al directorio de trabajo
+En esta sección, `<skill>` es la raíz del skill `sdd`: `core/sdd` si el
+Workbench vive dentro del workspace del proyecto, o `.opencode/skills/sdd`
+tras instalarlo (ver "Skills" más arriba).
+
+1. Confirma que la tarea justifica SDD (ver `<skill>/SKILL.md`, "Cuándo usar").
+2. Copia las plantillas de `<skill>/templates/` al directorio de trabajo
    (normalmente `.specs/`).
 3. Completa las fases en orden: Contexto → Especificar → Diseñar → Planificar
    → Implementar → Validar, con revisión y aprobación humana en cada fase.
 4. Tras Planificar, ejecuta la **puerta pre-implementación** sobre
    `requirements.md`, `design.md` y `tasks.md`
-   (`core/sdd/tests/validate-spec.md`, primer momento).
+   (`<skill>/tests/validate-spec.md`, primer momento).
 5. Implementa una tarea a la vez, verificando cada criterio de aceptación.
 6. Cierra con la validación de conformidad
-   (`core/sdd/tests/validate-spec.md`, segundo momento) y la matriz de
+   (`<skill>/tests/validate-spec.md`, segundo momento) y la matriz de
    `validation.md`.
 
 ---
@@ -88,7 +92,8 @@ Development compatible con OpenCode. Instálalo y configura la integración:
 specify init . --integration opencode
 ```
 
-Esto instala los comandos `/speckit.*` (o skills equivalentes con `--skills`).
+Esto instala los comandos `/speckit.*` (o skills equivalentes con
+`--integration-options="--skills"`).
 
 ### Equivalencias
 
@@ -98,12 +103,12 @@ distintos:
 | Fase / momento (Workbench) | Artefacto (Workbench) | Command SpecKit | Artefacto SpecKit |
 | --- | --- | --- | --- |
 | Contexto (Fase 0) | — | — | — |
-| Especificar | `.specs/requirements.md` | `/speckit.specify` | `.specify/spec.md` |
-| Diseñar | `.specs/design.md` | `/speckit.plan` | `.specify/plan.md` |
-| Planificar | `.specs/tasks.md` | `/speckit.tasks` | `.specify/tasks.md` |
-| Puerta pre-implementación | `core/sdd/tests/validate-spec.md` | `/speckit.checklist`, `/speckit.analyze` | — |
+| Especificar | `.specs/requirements.md` | `/speckit.specify` | `specs/<feature>/spec.md` |
+| Diseñar | `.specs/design.md` | `/speckit.plan` | `specs/<feature>/plan.md` |
+| Planificar | `.specs/tasks.md` | `/speckit.tasks` | `specs/<feature>/tasks.md` |
+| Puerta pre-implementación | `<skill>/tests/validate-spec.md` | `/speckit.checklist`, `/speckit.analyze` | — |
 | Implementar | código (tarea a tarea) | `/speckit.implement` | — |
-| Validar / conformidad | `core/sdd/tests/validate-spec.md` + `.specs/validation.md` | `/speckit.converge` | — |
+| Validar / conformidad | `<skill>/tests/validate-spec.md` + `.specs/validation.md` | `/speckit.converge` | — |
 
 ### Estrategias
 
@@ -116,7 +121,8 @@ distintos:
 
 En ambos casos se aplica una única regla para evitar duplicidad: **una sola
 fuente de verdad para los artefactos** (`.specs/` del Workbench **o**
-`.specify/` de SpecKit) y **un solo proceso**, nunca ambos a la vez.
+`specs/` de SpecKit, con su directorio de feature) y **un solo proceso**,
+nunca ambos a la vez.
 
 ---
 

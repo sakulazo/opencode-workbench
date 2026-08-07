@@ -65,8 +65,8 @@ The limit (requests per window) and the window (seconds) are configurable at ser
 
 **Acceptance criteria:**
 
-- Given the service starts with `RATE_LIMIT_LIMIT=100` and `RATE_LIMIT_WINDOW=60`, when a client sends 100 requests back-to-back, then none are rejected.
-- Given the same configuration, when the client sends 101 requests back-to-back, then the 101st is rejected with 429.
+- Given a fresh client (no prior requests in the current window) and a service that starts with `RATE_LIMIT_LIMIT=100` and `RATE_LIMIT_WINDOW=60`, when the client sends 100 requests back-to-back, then none are rejected.
+- Given a fresh client (no prior requests in the current window) and the same configuration, when the client sends 101 requests back-to-back, then the 101st is rejected with 429.
 
 ## Edge cases and error scenarios
 
