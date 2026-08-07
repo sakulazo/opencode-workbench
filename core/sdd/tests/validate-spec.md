@@ -1,0 +1,89 @@
+<!--
+  SDD spec validation — the skill's "test runner".
+
+  Usage: point an AI agent at a specification produced with the SDD skill
+  (requirements.md, design.md, tasks.md) and ask it to run this validation.
+  It returns PASS/FAIL per criterion with evidence. Any FAIL must be resolved
+  (or explicitly excepted) before the spec is approved for implementation.
+-->
+
+# Validación de especificación SDD
+
+## Propósito
+
+Comprobar que una especificación producida con el skill SDD cumple los criterios mínimos de calidad antes de ser aprobada e implementada. Se aplica sobre `requirements.md`, `design.md` y `tasks.md`.
+
+## Instrucciones para el agente
+
+1. Lee los documentos de especificación del cambio.
+2. Evalúa cada criterio de la sección "Criterios" contra el contenido real de los documentos.
+3. Marca cada criterio como **PASS**, **FAIL** o **N/A**, citando la evidencia concreta (sección, requisito, tarea o línea) en la que te basas. Un criterio marcado PASS sin evidencia no es válido.
+4. Si algo es FAIL, indica exactamente qué falta y dónde debería añadirse.
+5. Devuelve un resumen final: número de PASS/FAIL y decisión de aprobación (APROBADO / REQUIERE CAMBIOS / RECHAZADO).
+
+## Criterios
+
+### A. Estructura de `requirements.md`
+
+- [ ] Define propósito y alcance.
+- [ ] Incluye metas y no-metas explícitas.
+- [ ] Enumera supuestos.
+- [ ] Cada requisito funcional está identificado (FR-N).
+- [ ] Cada requisito funcional tiene criterios de aceptación en formato Given / When / Then.
+- [ ] Existe una sección de casos límite y escenarios de error.
+- [ ] Existe una sección de restricciones.
+- [ ] Existe una sección de "fuera de alcance" (o el alcance es evidentemente completo).
+
+### B. Calidad del contenido de `requirements.md`
+
+- [ ] Los criterios de aceptación son medibles y verificables (no hay "funciona bien", "carga rápido").
+- [ ] Entradas, salidas y condiciones son concretas.
+- [ ] Los casos límite y errores definen comportamiento esperado, no solo los enumeran.
+- [ ] No hay decisiones de implementación implícitas que la IA deba adivinar.
+- [ ] No quedan preguntas abiertas sin resolver ni supuestos sin registrar.
+
+### C. Estructura y contenido de `design.md`
+
+- [ ] Describe el contexto y el estado actual.
+- [ ] Incluye una vista general de la arquitectura.
+- [ ] Documenta decisiones relevantes con justificación y alternativas consideradas.
+- [ ] Define el modelo de datos relevante.
+- [ ] Define contratos explícitos (nombres, tipos, respuestas, errores).
+- [ ] Enumera ficheros/módulos afectados.
+- [ ] Identifica riesgos con mitigación.
+
+### D. Estructura y contenido de `tasks.md`
+
+- [ ] Las tareas están numeradas (T1, T2, ...) y ordenadas.
+- [ ] Cada tarea es pequeña y con alcance acotado a ficheros concretos.
+- [ ] Cada tarea tiene un criterio de aceptación verificable.
+- [ ] Las dependencias entre tareas están marcadas y son coherentes con el orden.
+- [ ] Existe una matriz de trazabilidad requisito → tarea.
+
+### E. Trazabilidad y coherencia global
+
+- [ ] Todo requisito funcional (FR) tiene al menos una tarea que lo cubre.
+- [ ] Todo caso límite está cubierto por una tarea o una prueba explícita.
+- [ ] No hay tareas sin requisito asociado (código huérfano potencial).
+- [ ] El diseño no contradice ningún requisito ni restricción.
+- [ ] Los nombres de artefactos, contratos y ficheros son coherentes entre los tres documentos.
+
+## Resumen
+
+| Sección | PASS | FAIL | N/A |
+| --- | --- | --- | --- |
+| A. Estructura requirements |  |  |  |
+| B. Calidad requirements |  |  |  |
+| C. Design |  |  |  |
+| D. Tasks |  |  |  |
+| E. Trazabilidad |  |  |  |
+
+**Decisión**: APROBADO / REQUIERE CAMBIOS / RECHAZADO
+
+**Observaciones**: <solo las evidencias y las correcciones necesarias>
+
+## Referencias
+
+- Criterios de calidad: [methodology.md](../methodology.md), [checklists.md](../checklists.md)
+- Proceso: [workflow.md](../workflow.md)
+- Ejemplo validable: [examples/rate-limiting/](../examples/rate-limiting/)
