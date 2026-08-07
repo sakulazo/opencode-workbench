@@ -1,11 +1,11 @@
 <!--
-  Validación de la especificación SDD — el "test runner" del skill.
+  Validación de la especificación SDD — la herramienta de validación del skill.
 
   Se ejecuta en dos momentos:
   (a) Puerta pre-implementación: tras la fase de planificación (tasks.md
       aprobado), validar los DOCUMENTOS de la especificación (requirements.md,
       design.md, tasks.md) y obtener la aprobación antes de escribir código.
-  (b) Conformidad post-implementación: durante la fase de validación,
+  (b) Validación de conformidad: durante la fase de validación,
       re-ejecutarla contra el estado final (resultado implementado +
       validation.md) para confirmar que la especificación se cumple.
 
@@ -20,8 +20,8 @@
 
 Comprobar que una especificación producida con el skill SDD cumple los criterios mínimos de calidad. Se aplica en dos momentos:
 
-- **Tras Planificar (Fase 3)**: como puerta de calidad de los documentos (`requirements.md`, `design.md`, `tasks.md`) antes de aprobar e implementar la especificación.
-- **Durante Validar (Fase 5)**: como check de conformidad sobre el resultado final, complementando la matriz de `validation.md`.
+- **Tras Planificar (Fase 3)**: como puerta pre-implementación sobre los documentos (`requirements.md`, `design.md`, `tasks.md`) antes de aprobar e implementar la especificación.
+- **Durante Validar (Fase 5)**: como validación de conformidad sobre el resultado final, complementando la matriz de `validation.md`.
 
 En ambos momentos, un criterio en FAIL debe resolverse (o exceptuarse explícitamente) antes de la aprobación correspondiente.
 
@@ -35,7 +35,7 @@ En ambos momentos, un criterio en FAIL debe resolverse (o exceptuarse explícita
 
 ## Criterios
 
-### A. Estructura de `requirements.md`
+### A. Estructura y contenido de `requirements.md`
 
 - [ ] Define propósito y alcance.
 - [ ] Incluye metas y no-metas explícitas.
@@ -84,7 +84,7 @@ En ambos momentos, un criterio en FAIL debe resolverse (o exceptuarse explícita
 
 | Sección | PASS | FAIL | N/A |
 | --- | --- | --- | --- |
-| A. Estructura de `requirements.md` |  |  |  |
+| A. Estructura y contenido de `requirements.md` |  |  |  |
 | B. Calidad del contenido de `requirements.md` |  |  |  |
 | C. Estructura y contenido de `design.md` |  |  |  |
 | D. Estructura y contenido de `tasks.md` |  |  |  |

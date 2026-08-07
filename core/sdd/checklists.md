@@ -1,4 +1,4 @@
-# Checklists SDD
+# Listas de verificación SDD
 
 ## Propósito
 
@@ -90,7 +90,7 @@ Listas de verificación operativas para ejecutar el [workflow.md](workflow.md). 
 ## 8. Anti-patrones y señales de alarma
 
 - [ ] Especificación vaga que la IA debe completar por su cuenta.
-- [ ] Implementar "la feature completa" en lugar de tarea a tarea.
+- [ ] Implementar "la funcionalidad completa" en lugar de tarea a tarea.
 - [ ] Aceptar resultados porque "funcionan" sin comprobar la especificación.
 - [ ] Especificaciones que envejecen sin reflejar cambios de alcance (*spec drift*).
 - [ ] Decisiones de diseño tomadas durante la implementación sin registrarlas.

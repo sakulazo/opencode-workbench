@@ -23,7 +23,7 @@
 
 | Section (validate-spec.md) | PASS | FAIL | N/A |
 | --- | --- | --- | --- |
-| A. Structure of `requirements.md` |  |  |  |
+| A. Structure and content of `requirements.md` |  |  |  |
 | B. Content quality of `requirements.md` |  |  |  |
 | C. Structure and content of `design.md` |  |  |  |
 | D. Structure and content of `tasks.md` |  |  |  |

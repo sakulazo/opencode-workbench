@@ -28,7 +28,7 @@ Add a rate-limiting middleware to the existing HTTP service. The middleware sits
 
 - The service runs as a single instance for the foreseeable future.
 - The API key is always present and valid on the requests that reach the rate limiter: the auth check runs before it and rejects missing or expired keys with 401.
-- The token bucket state may be lost on restart without contractual impact.
+- The rate-limit state may be lost on restart without contractual impact.
 
 ## Functional requirements
 
@@ -52,11 +52,11 @@ Every response that passes through the rate limiter (processed or rejected with 
 
 ### FR-3: Allow a bounded burst
 
-A client may make a burst of requests up to the bucket capacity even if the sustained rate exceeds the limit, as long as the bucket was full.
+A client that has not made requests for at least one full window may send a burst of requests up to the configured limit, even if the sustained rate is exceeded during that burst.
 
 **Acceptance criteria:**
 
-- Given a client that has not made requests for at least one full window, when it sends N concurrent requests where N equals the capacity, then all N are processed.
+- Given a client that has not made requests for at least one full window, when it sends N concurrent requests where N equals the configured limit, then all N are processed.
 - Given the same client, when it sends N+1 concurrent requests, then exactly 1 is rejected with 429.
 
 ### FR-4: Configurable limits
@@ -72,7 +72,7 @@ The limit (requests per window) and the window (seconds) are configurable at ser
 
 - First request from a new key: bucket is initialized full; the request is processed.
 - Expired key or missing key header: request is rejected with 401 before rate limiting (unchanged existing behavior).
-- Refill is continuous: a request right after a refill sees the updated quota, with no jumps or off-by-one errors at any timestamp.
+- Quota recovery is continuous: a request immediately after a quota recovery observes the updated remaining quota, with no jumps or off-by-one errors at any timestamp.
 - Restart of the service: bucket state is lost; all clients start with a full bucket.
 - Memory growth from many keys: entries idle for more than the window are swept to bound memory usage.
 

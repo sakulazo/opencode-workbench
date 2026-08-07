@@ -10,7 +10,7 @@
 - **Scope**: Create `src/rate-limiter.js` with a pure `createRateLimiter(config)` that validates config and returns a `check(key)` function implementing a lazy-refill token bucket. Include idle-entry sweep.
 - **Files**: `src/rate-limiter.js`, `test/rate-limiter.test.js`
 - **Depends on**: —
-- **Acceptance**: `npm test -- rate-limiter` passes. Tests cover: refill after idle, burst up to capacity (FR-3), exhaustion → `allowed: false` with `retryAfterSeconds` (FR-1), config validation failure (FR-4), first request from a new key initializes a full bucket, restart loses state (new bucket starts full), and idle entries swept.
+- **Acceptance**: `npm test -- rate-limiter` passes. Tests cover: refill after idle, refill-timing at any timestamp (quota recovery is continuous), burst up to the configured limit (FR-3), exhaustion → `allowed: false` with `retryAfterSeconds` (FR-1), config validation failure (FR-4), first request from a new key initializes a full bucket, restart loses state (new bucket starts full), and idle entries swept.
 
 ## T2: Wire the middleware with 429 rejection
 
@@ -36,6 +36,6 @@
 | FR-4 | T1, T3 |
 | First request from new key | T1 |
 | Missing/expired key header → 401 | T2 |
-| Continuous refill | T1 |
+| Quota recovery is continuous | T1 |
 | Restart loses state | T1 (documented in design) |
 | Memory sweep | T1 |

@@ -169,7 +169,7 @@ Un cambio de alcance puede llegar por una vía distinta al flujo (p. ej. ajustes
 pedidos en una sesión normal, sin pasar por especificar → diseñar → planificar). Trátalo
 como un hallazgo del mismo modo:
 
-- Compara el resultado con los artefactos de la especificación de la feature afectada.
+- Compara el resultado con los artefactos de la especificación de la funcionalidad afectada.
 - Si hay discrepancia (campo, contrato, estado o comportamiento nuevos),
   avísala explícitamente al humano y propón actualizar requirements / design /
   tasks **antes de dar la tarea por cerrada**.

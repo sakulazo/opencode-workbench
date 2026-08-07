@@ -33,7 +33,7 @@ El humano orquesta y revisa; la IA implementa. Las decisiones de diseño se toma
 Fases resumidas:
 
 0. **Contexto** — recopilar objetivo, contexto del proyecto y restricciones.
-1. **Especificar** — escribir `requirements.md` (alcance, criterios de aceptación, edge cases).
+1. **Especificar** — escribir `requirements.md` (alcance, criterios de aceptación, casos límite).
 2. **Diseñar** — escribir `design.md` (decisiones, contratos, arquitectura).
 3. **Planificar** — descomponer en `tasks.md` (tareas numeradas y verificables).
 4. **Implementar** — ejecutar una tarea a la vez, verificando cada una.
@@ -50,7 +50,7 @@ Detalle completo en [workflow.md](workflow.md).
 - [checklists.md](checklists.md) — listas de verificación operativas para revisar y validar.
 - [templates/](templates/) — plantillas reutilizables (`requirements.md`, `design.md`, `tasks.md`, `validation.md`).
 - [examples/](examples/) — caso de ejemplo completo (`rate-limiting/`).
-- [tests/](tests/) — validación de la especificación en dos momentos: puerta previa a la implementación y check de conformidad final.
+- [tests/](tests/) — validación de la especificación en dos momentos: puerta pre-implementación y validación de conformidad final.
 
 ---
 

@@ -25,11 +25,36 @@ grep_md() {
     "$1" "$ROOT" 2>/dev/null || true
 }
 
+# Same as grep_md but excluding English-only resource directories (templates/,
+# examples/), whose content legitimately uses the English terms these checks
+# flag when they appear in Spanish prose (e.g. "edge cases").
+grep_md_es() {
+  grep -rInE --include='*.md' --exclude-dir='.git' \
+    --exclude='check-consistency.md' \
+    --exclude-dir='templates' --exclude-dir='examples' \
+    "$1" "$ROOT" 2>/dev/null || true
+}
+
 check_pattern() {
   local label="$1"
   local pattern="$2"
   local matches
   matches=$(grep_md "$pattern")
+  if [[ -n "$matches" ]]; then
+    FAILURES=$((FAILURES + 1))
+    echo "FAIL: $label"
+    echo "$matches"
+  else
+    PASS=$((PASS + 1))
+    echo "PASS: $label"
+  fi
+}
+
+check_pattern_es() {
+  local label="$1"
+  local pattern="$2"
+  local matches
+  matches=$(grep_md_es "$pattern")
   if [[ -n "$matches" ]]; then
     FAILURES=$((FAILURES + 1))
     echo "FAIL: $label"
@@ -46,8 +71,26 @@ echo
 # 1. Terminology: the methodology is "Specification-Driven Development".
 check_pattern "Terminology: 'Specification-Driven Development' (not 'Spec-Driven')" "Spec-Driven"
 
+# 1b. Terminology: the pre-implementation gate is "puerta pre-implementación".
+check_pattern "Terminology: 'puerta pre-implementación' (not 'puerta previa'/'puerta de calidad')" "puerta (previa|de calidad)"
+
+# 1c. Terminology: the conformance check is "validación de conformidad".
+check_pattern "Terminology: 'validación de conformidad' (not 'check de conformidad')" "check de conformidad"
+
+# 1d. Terminology: the post-implementation validation is "validación de conformidad".
+check_pattern "Terminology: 'validación de conformidad' (not 'Conformidad post-implementación')" "Conformidad post-implementación"
+
+# 1e. Terminology: the rate-limiting example uses "configured limit", not "capacity".
+check_pattern "Example terminology: 'configured limit' (not 'capacity' in burst criteria)" "burst[[:space:]]+(up to|exceeding)[[:space:]]+capacity|equals[[:space:]]+the[[:space:]]+capacity"
+
 # 2. No mixed Spanish/English phrases like "specify ->".
 check_pattern "No mixed-language phrase 'specify ->'" "specify[[:space:]]*->"
+
+# 2b. No "edge cases" in Spanish prose (use 'casos límite').
+check_pattern_es "No 'edge cases' in Spanish prose (use 'casos límite')" "edge cases"
+
+# 2c. No "la feature" in Spanish prose (use 'la funcionalidad').
+check_pattern_es "No 'la feature' in Spanish prose (use 'la funcionalidad')" "la feature"
 
 # 3. No obsolete auxiliary resource "Test data".
 check_pattern "No auxiliary resource 'Test data'" "Test data"
