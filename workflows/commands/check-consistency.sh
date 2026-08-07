@@ -93,14 +93,14 @@ check_pattern_es "No 'edge cases' in Spanish prose (use 'casos límite')" "edge 
 check_pattern_es "No 'la feature' in Spanish prose (use 'la funcionalidad')" "la feature"
 
 # 3. No obsolete auxiliary resource "Test data".
-check_pattern "No auxiliary resource 'Test data'" "Test data"
+check_pattern_es "No auxiliary resource 'Test data'" "Test data"
 
 # 4. Documentation titles in Spanish: "Documentación específica".
 check_pattern "Spanish documentation title 'Documentación específica'" "Documentation[[:space:]]+específica"
 
 # 5. Resource type headings use Title Case.
-check_pattern "Headings Title Case: '## Skills, ## Agents, ## Commands, ## MCPs'" "^## (skills|agents|commands|mcps)([[:space:]]*)$"
-check_pattern "No singular type headings: '## Skill, ## Agent, ## Command, ## MCP'" "^## (Skill|Agent|Command|MCP)([[:space:]]*)$"
+check_pattern "Headings Title Case: '## / ### Skills, Agents, Commands, MCPs'" "^#{2,3} (skills|agents|commands|mcps)([[:space:]]*)$"
+check_pattern "No singular type headings: '## / ### Skill, Agent, Command, MCP'" "^#{2,3} (Skill|Agent|Command|MCP)([[:space:]]*)$"
 
 # 6. Type enumerations must include mcp.
 for base in "skill, agent, command" "skills, agents, commands"; do

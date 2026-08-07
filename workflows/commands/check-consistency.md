@@ -36,9 +36,10 @@ detectadas en el repositorio: terminología divergente (p. ej. "puerta previa" o
 conformidad" o "Conformidad post-implementación" en lugar de "validación de
 conformidad", "capacity" en los criterios de ráfaga del ejemplo en lugar de
 "configured limit"), idiomas mezclados en prosa (p. ej. "edge cases", "la
-feature"), encabezados o enumeraciones de tipos incorrectos, espacios al final
-de línea y archivos Markdown con permisos de ejecución. Convierte la coherencia
-en algo verificable automáticamente en lugar de depender de la revisión manual.
+feature", "specify ->"), encabezados o enumeraciones de tipos incorrectos,
+espacios al final de línea y archivos Markdown con permisos de ejecución.
+Convierte la coherencia en algo verificable automáticamente en lugar de depender
+de la revisión manual.
 
 ## Excepción
 
@@ -57,7 +58,8 @@ Cubiertas por `check-consistency.sh` (en esta misma carpeta):
   "Conformidad post-implementación").
 - Terminología del ejemplo `rate-limiting`: "configured limit" en los
   criterios de ráfaga (sin "capacity").
-- Sin frases mixtas español/inglés en prosa (p. ej. "edge cases", "la feature").
+- Sin frases mixtas español/inglés en prosa (p. ej. "edge cases", "la feature",
+  "specify ->").
 - Recursos auxiliares: sin términos obsoletos (p. ej. "Test data").
 - Títulos de secciones en español: "Documentación específica".
 - Encabezados de tipos en Title Case (Skills, Agents, Commands, MCPs).

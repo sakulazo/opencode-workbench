@@ -10,7 +10,7 @@ Este repositorio no pertenece a ningún proyecto de software concreto. Constituy
 
 ---
 
-# Filosofía
+## Filosofía
 
 La organización del Workbench responde a un criterio **conceptual**, no técnico.
 
@@ -24,7 +24,7 @@ El detalle de esta filosofía se documenta en [docs/philosophy.md](docs/philosop
 
 ---
 
-# Arquitectura conceptual
+## Arquitectura conceptual
 
 El Workbench se divide en cuatro grandes dominios de conocimiento.
 
@@ -53,7 +53,7 @@ El detalle de cada dominio y de los tipos de recursos se documenta en [docs/arch
 
 ---
 
-# Organización interna
+## Organización interna
 
 Cada dominio organiza sus recursos en torno a cuatro tipos principales:
 
@@ -70,7 +70,7 @@ La estructura interna debe responder siempre a las necesidades del dominio, mant
 
 ---
 
-# Objetivos
+## Objetivos
 
 - Construir una biblioteca reutilizable para OpenCode.
 - Separar metodología, tecnología y orquestación.
@@ -81,7 +81,7 @@ La estructura interna debe responder siempre a las necesidades del dominio, mant
 
 ---
 
-# Convenciones generales
+## Convenciones generales
 
 El repositorio adopta las siguientes convenciones generales:
 
@@ -96,7 +96,7 @@ Las convenciones completas se documentan en [docs/conventions.md](docs/conventio
 
 ---
 
-# Uso del Workbench
+## Uso del Workbench
 
 El modo de instalar y utilizar los recursos del Workbench en proyectos con
 OpenCode, así como su combinación con SpecKit, se documenta en
@@ -104,7 +104,7 @@ OpenCode, así como su combinación con SpecKit, se documenta en
 
 ---
 
-# Estado del proyecto
+## Estado del proyecto
 
 OpenCode Workbench es un proyecto en evolución continua.
 

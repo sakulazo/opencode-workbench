@@ -10,7 +10,7 @@ Toda nueva incorporación al repositorio deberá respetar estas convenciones, sa
 
 ---
 
-# Principios generales
+## Principios generales
 
 Las siguientes reglas se aplican a todo el repositorio.
 
@@ -22,7 +22,7 @@ Las siguientes reglas se aplican a todo el repositorio.
 
 ---
 
-# Organización
+## Organización
 
 Todo recurso deberá clasificarse siguiendo este orden de decisión:
 
@@ -42,7 +42,7 @@ La naturaleza del recurso (skill, agent, command, mcp, template, ejemplo, etc.) 
 
 ---
 
-# Idioma
+## Idioma
 
 Se utilizarán las siguientes convenciones lingüísticas:
 
@@ -62,7 +62,7 @@ en español.
 
 ---
 
-# Nomenclatura
+## Nomenclatura
 
 Los nombres deberán ser:
 
@@ -80,7 +80,7 @@ Se evitarán:
 
 ---
 
-# Diseño de recursos
+## Diseño de recursos
 
 Todo recurso debería ser:
 
@@ -94,7 +94,7 @@ Cuando un recurso comience a asumir varias responsabilidades, deberá dividirse.
 
 ---
 
-# Evolución
+## Evolución
 
 El repositorio evolucionará mediante pequeñas mejoras incrementales.
 
@@ -106,7 +106,7 @@ Antes de crear un nuevo recurso se recomienda comprobar:
 
 ---
 
-# Documentación
+## Documentación
 
 Todo recurso relevante debería incluir la documentación necesaria para comprender:
 
@@ -119,7 +119,7 @@ La documentación deberá mantenerse sincronizada con la evolución del recurso.
 
 ---
 
-# Compatibilidad
+## Compatibilidad
 
 Siempre que sea posible:
 
@@ -129,7 +129,7 @@ Siempre que sea posible:
 
 ---
 
-# Mejora continua
+## Mejora continua
 
 Estas convenciones no son inmutables.
 
@@ -139,7 +139,7 @@ Toda modificación deberá perseguir un beneficio claro para el conjunto del rep
 
 ---
 
-# Validación de consistencia
+## Validación de consistencia
 
 La coherencia del repositorio se verifica con el command
 [check-consistency.md](../workflows/commands/check-consistency.md):

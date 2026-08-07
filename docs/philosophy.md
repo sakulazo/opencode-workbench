@@ -10,7 +10,7 @@ En lugar de crear soluciones aisladas para cada proyecto, el objetivo es constru
 
 ---
 
-# Una biblioteca antes que un proyecto
+## Una biblioteca antes que un proyecto
 
 Este repositorio no pretende almacenar código de una aplicación.
 
@@ -20,7 +20,7 @@ Cada skill, agent, command, mcp o plantilla representa una pieza de conocimiento
 
 ---
 
-# La metodología antes que la tecnología
+## La metodología antes que la tecnología
 
 Las tecnologías cambian constantemente.
 
@@ -32,7 +32,7 @@ La metodología debe permanecer estable incluso cuando cambien los lenguajes, fr
 
 ---
 
-# Modularidad
+## Modularidad
 
 Cada recurso debe tener una única responsabilidad.
 
@@ -42,7 +42,7 @@ Siempre que sea posible, se preferirá la composición frente a la acumulación 
 
 ---
 
-# Evolución incremental
+## Evolución incremental
 
 El Workbench no busca estar completo.
 
@@ -54,7 +54,7 @@ La calidad tendrá siempre prioridad sobre la cantidad.
 
 ---
 
-# Consistencia
+## Consistencia
 
 La consistencia es uno de los principales objetivos del proyecto.
 
@@ -64,7 +64,7 @@ Reducir la variabilidad facilita tanto el mantenimiento como el trabajo asistido
 
 ---
 
-# Simplicidad
+## Simplicidad
 
 La complejidad debe introducirse únicamente cuando resuelva un problema real.
 
@@ -74,7 +74,7 @@ Siempre que existan varias alternativas válidas, se preferirá la más sencilla
 
 ---
 
-# Independencia
+## Independencia
 
 Siempre que sea posible, los recursos evitarán depender entre sí.
 
@@ -87,7 +87,7 @@ Una baja dependencia facilita:
 
 ---
 
-# Documentación
+## Documentación
 
 La documentación forma parte del recurso.
 
@@ -97,7 +97,7 @@ La documentación debe evolucionar junto con el propio recurso.
 
 ---
 
-# Inteligencia Artificial como colaborador
+## Inteligencia Artificial como colaborador
 
 Las herramientas de inteligencia artificial deben considerarse colaboradoras durante el desarrollo, no sustitutas del criterio de ingeniería.
 
@@ -105,7 +105,7 @@ El objetivo del Workbench es proporcionar un contexto claro, estructurado y cohe
 
 ---
 
-# Pensamiento a largo plazo
+## Pensamiento a largo plazo
 
 Cada decisión de diseño debe tomarse pensando en la evolución futura del repositorio.
 

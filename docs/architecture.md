@@ -10,7 +10,7 @@ La arquitectura se ha diseñado para favorecer la reutilización, la modularidad
 
 ---
 
-# Principios arquitectónicos
+## Principios arquitectónicos
 
 Toda decisión arquitectónica deberá respetar los siguientes principios:
 
@@ -23,11 +23,11 @@ Toda decisión arquitectónica deberá respetar los siguientes principios:
 
 ---
 
-# Dominios conceptuales
+## Dominios conceptuales
 
 El Workbench organiza el conocimiento en cuatro grandes dominios.
 
-## Core
+### Core
 
 Contiene conocimiento independiente de cualquier tecnología.
 
@@ -43,7 +43,7 @@ Ejemplos:
 
 ---
 
-## Technologies
+### Technologies
 
 Contiene recursos específicos de una tecnología determinada.
 
@@ -59,7 +59,7 @@ Ejemplos:
 
 ---
 
-## Workflows
+### Workflows
 
 Contiene los recursos encargados de coordinar y automatizar el trabajo.
 
@@ -67,7 +67,7 @@ Aquí se define cómo interactúan el conocimiento, las herramientas y los disti
 
 ---
 
-## Docs
+### Docs
 
 Contiene la documentación del propio Workbench.
 
@@ -75,13 +75,13 @@ Describe su arquitectura, filosofía, convenciones y evolución.
 
 ---
 
-# Recursos principales
+## Recursos principales
 
 El Workbench se construye únicamente sobre cuatro tipos de recursos principales.
 
 ---
 
-## Skills
+### Skills
 
 Un **skill** encapsula conocimiento reutilizable.
 
@@ -89,7 +89,7 @@ Describe cómo abordar una tarea o resolver un problema determinado.
 
 No coordina procesos ni interactúa directamente con herramientas externas.
 
-### Responsabilidades
+#### Responsabilidades
 
 - Aportar conocimiento.
 - Definir metodologías.
@@ -98,7 +98,7 @@ No coordina procesos ni interactúa directamente con herramientas externas.
 
 ---
 
-## Agents
+### Agents
 
 Un **agent** coordina el trabajo.
 
@@ -106,7 +106,7 @@ Su responsabilidad consiste en analizar una situación, decidir cómo abordarla 
 
 Un agent puede utilizar múltiples skills, commands y mcps durante una misma tarea.
 
-### Responsabilidades
+#### Responsabilidades
 
 - Planificar.
 - Coordinar.
@@ -115,13 +115,13 @@ Un agent puede utilizar múltiples skills, commands y mcps durante una misma tar
 
 ---
 
-## Commands
+### Commands
 
 Un **command** automatiza tareas repetitivas.
 
 Su objetivo es proporcionar una forma consistente de ejecutar procesos habituales.
 
-### Responsabilidades
+#### Responsabilidades
 
 - Automatizar acciones.
 - Reducir trabajo manual.
@@ -129,7 +129,7 @@ Su objetivo es proporcionar una forma consistente de ejecutar procesos habituale
 
 ---
 
-## MCPs
+### MCPs
 
 Un **mcp** proporciona capacidades externas.
 
@@ -146,14 +146,14 @@ Ejemplos:
 - Navegadores.
 - Documentación externa.
 
-### Responsabilidades
+#### Responsabilidades
 
 - Proporcionar acceso a recursos externos.
 - Ampliar las capacidades del agente.
 
 ---
 
-# Ubicación de los recursos
+## Ubicación de los recursos
 
 Los tipos principales tienen una ubicación habitual según su naturaleza:
 
@@ -172,7 +172,7 @@ clasificación.
 
 ---
 
-# Recursos auxiliares
+## Recursos auxiliares
 
 Existen recursos cuya función es apoyar a los recursos principales.
 
@@ -190,7 +190,7 @@ Estos elementos podrán existir asociados a cualquier skill, agent, command, mcp
 
 ---
 
-# Relaciones
+## Relaciones
 
 Los recursos colaboran respetando siempre su responsabilidad.
 
@@ -211,7 +211,7 @@ Los mcps proporcionan capacidades externas.
 
 ---
 
-# Dependencias
+## Dependencias
 
 Se favorecerán las siguientes relaciones:
 
@@ -226,7 +226,7 @@ Se evitarán dependencias innecesarias entre recursos del mismo tipo.
 
 ---
 
-# Evolución
+## Evolución
 
 Todo nuevo recurso deberá responder a una responsabilidad claramente diferenciada.
 
