@@ -23,11 +23,11 @@
 
 | Section (validate-spec.md) | PASS | FAIL | N/A |
 | --- | --- | --- | --- |
-| A. Requirements structure |  |  |  |
-| B. Requirements quality |  |  |  |
-| C. Design |  |  |  |
-| D. Tasks |  |  |  |
-| E. Traceability |  |  |  |
+| A. Structure of `requirements.md` |  |  |  |
+| B. Content quality of `requirements.md` |  |  |  |
+| C. Structure and content of `design.md` |  |  |  |
+| D. Structure and content of `tasks.md` |  |  |  |
+| E. Global traceability and coherence |  |  |  |
 
 ## Exceptions
 

@@ -96,6 +96,14 @@ Las convenciones completas se documentan en [docs/conventions.md](docs/conventio
 
 ---
 
+# Uso del Workbench
+
+El modo de instalar y utilizar los recursos del Workbench en proyectos con
+OpenCode, así como su combinación con SpecKit, se documenta en
+[docs/usage.md](docs/usage.md).
+
+---
+
 # Estado del proyecto
 
 OpenCode Workbench es un proyecto en evolución continua.

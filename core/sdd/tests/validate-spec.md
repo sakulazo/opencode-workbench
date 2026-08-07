@@ -1,17 +1,17 @@
 <!--
-  SDD spec validation — the skill's "test runner".
+  Validación de la especificación SDD — el "test runner" del skill.
 
-  Runs at two moments:
-  (a) Pre-implementation gate: after the planning phase (tasks.md approved),
-      validate the spec DOCUMENTS (requirements.md, design.md, tasks.md) and
-      get approval before any code is written.
-  (b) Post-implementation conformance: during the validation phase, re-run it
-      against the final state (implemented result + validation.md) to confirm
-      the spec is met.
+  Se ejecuta en dos momentos:
+  (a) Puerta pre-implementación: tras la fase de planificación (tasks.md
+      aprobado), validar los DOCUMENTOS de la especificación (requirements.md,
+      design.md, tasks.md) y obtener la aprobación antes de escribir código.
+  (b) Conformidad post-implementación: durante la fase de validación,
+      re-ejecutarla contra el estado final (resultado implementado +
+      validation.md) para confirmar que la especificación se cumple.
 
-  In both moments it returns PASS/FAIL per criterion with evidence. Any FAIL
-  must be resolved (or explicitly excepted) before the spec is approved (a)
-  or before the result is accepted (b).
+  En ambos momentos devuelve PASS/FAIL por criterio con evidencia. Cualquier
+  FAIL debe resolverse (o exceptuarse explícitamente) antes de aprobar la
+  especificación (a) o de aceptar el resultado (b).
 -->
 
 # Validación de especificación SDD
@@ -84,11 +84,11 @@ En ambos momentos, un criterio en FAIL debe resolverse (o exceptuarse explícita
 
 | Sección | PASS | FAIL | N/A |
 | --- | --- | --- | --- |
-| A. Estructura requirements |  |  |  |
-| B. Calidad requirements |  |  |  |
-| C. Design |  |  |  |
-| D. Tasks |  |  |  |
-| E. Trazabilidad |  |  |  |
+| A. Estructura de `requirements.md` |  |  |  |
+| B. Calidad del contenido de `requirements.md` |  |  |  |
+| C. Estructura y contenido de `design.md` |  |  |  |
+| D. Estructura y contenido de `tasks.md` |  |  |  |
+| E. Trazabilidad y coherencia global |  |  |  |
 
 **Decisión**: APROBADO / REQUIERE CAMBIOS / RECHAZADO
 

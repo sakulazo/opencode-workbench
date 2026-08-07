@@ -17,7 +17,7 @@
 | FR-4 | Given the service starts with `RATE_LIMIT_LIMIT=100` and `RATE_LIMIT_WINDOW=60`, when a client sends 100 requests back-to-back, then none are rejected. | Manual run with `RATE_LIMIT_LIMIT=100` / `RATE_LIMIT_WINDOW=60` — burst of 100 back-to-back requests. | PASS |
 | FR-4 | Given the same configuration, when the client sends 101 requests back-to-back, then the 101st is rejected with 429. | Manual run with `RATE_LIMIT_LIMIT=100` / `RATE_LIMIT_WINDOW=60` — burst of 101 back-to-back requests. | PASS |
 | First request from a new key | Bucket is initialized full; the request is processed. | `test/rate-limiter.test.js` — first request from a new key. | PASS |
-| Missing key header → 401 | Request rejected with 401 before rate limiting (unchanged behavior). | `test/rate-limit.middleware.test.js` — missing key still returns 401. | PASS |
+| Missing/expired key header → 401 | Request rejected with 401 before rate limiting (unchanged behavior). | `test/rate-limit.middleware.test.js` — missing or expired key still returns 401. | PASS |
 | Continuous refill | Refill is continuous: a request right after a refill sees the updated quota, with no jumps or off-by-one errors at any timestamp. | `test/rate-limiter.test.js` — refill-timing test. | PASS |
 | Restart loses state | Bucket state is lost; all clients start with a full bucket. | Documented in design.md; covered by the bucket initialization test. | PASS |
 | Memory sweep | Idle entries are swept to bound memory usage. | `test/rate-limiter.test.js` — idle entries swept. | PASS |
@@ -28,11 +28,11 @@ Result of running the SDD spec validation — tests/validate-spec.md (validation
 
 | Section (validate-spec.md) | PASS | FAIL | N/A |
 | --- | --- | --- | --- |
-| A. Requirements structure | PASS |  |  |
-| B. Requirements quality | PASS |  |  |
-| C. Design | PASS |  |  |
-| D. Tasks | PASS |  |  |
-| E. Traceability | PASS |  |  |
+| A. Structure of `requirements.md` | PASS |  |  |
+| B. Content quality of `requirements.md` | PASS |  |  |
+| C. Structure and content of `design.md` | PASS |  |  |
+| D. Structure and content of `tasks.md` | PASS |  |  |
+| E. Global traceability and coherence | PASS |  |  |
 
 ## Exceptions
 

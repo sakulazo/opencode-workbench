@@ -17,7 +17,7 @@
 - **Scope**: Create `src/middleware/rate-limit.js` that reads `X-API-Key`, calls `check`, short-circuits with HTTP 429 + `Retry-After` when not allowed, and leaves 401 handling to the existing auth check.
 - **Files**: `src/middleware/rate-limit.js`, `test/rate-limit.middleware.test.js`, `src/server.js`
 - **Depends on**: T1
-- **Acceptance**: Integration tests pass: request with exhausted quota returns 429 with `Retry-After` (FR-1); request within quota reaches the route handler; missing key still returns 401.
+- **Acceptance**: Integration tests pass: request with exhausted quota returns 429 with `Retry-After` (FR-1); request within quota reaches the route handler; missing or expired key still returns 401.
 
 ## T3: Emit quota response headers
 
@@ -35,7 +35,7 @@
 | FR-3 | T1 |
 | FR-4 | T1, T3 |
 | First request from new key | T1 |
-| Missing key header → 401 | T2 |
+| Missing/expired key header → 401 | T2 |
 | Continuous refill | T1 |
 | Restart loses state | T1 (documented in design) |
 | Memory sweep | T1 |
