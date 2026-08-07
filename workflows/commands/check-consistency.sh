@@ -7,13 +7,13 @@
 # workflows/commands/check-consistency.md and require human/AI review.
 #
 # Usage (from the repository root):
-#   ./scripts/check-consistency.sh [repo-root]
+#   ./workflows/commands/check-consistency.sh [repo-root]
 #
 # Exit code 0: all checks pass. 1: at least one check failed.
 
 set -u
 
-ROOT="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+ROOT="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 PASS=0
 FAILURES=0
 

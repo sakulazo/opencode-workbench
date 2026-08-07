@@ -143,6 +143,11 @@ Toda modificación deberá perseguir un beneficio claro para el conjunto del rep
 
 La coherencia del repositorio se verifica con el command
 [check-consistency.md](../workflows/commands/check-consistency.md):
-comprobaciones mecánicas mediante `scripts/check-consistency.sh` y revisión
-semántica guiada. Se recomienda ejecutarlo tras cada cambio, antes de cerrar la
-tarea o el commit.
+comprobaciones mecánicas mediante
+`workflows/commands/check-consistency.sh` y revisión semántica guiada. Se
+recomienda ejecutarlo tras cada cambio, antes de cerrar la tarea o el commit.
+
+El script `check-consistency.sh` es una **excepción documentada** al principio
+de que el repositorio no almacena código de aplicación: es una herramienta de
+mantenimiento del propio Workbench, no código de producto, y vive junto al
+command que lo utiliza.

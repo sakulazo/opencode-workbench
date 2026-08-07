@@ -33,7 +33,6 @@ El Workbench se divide en cuatro grandes dominios de conocimiento.
 ├── core/
 ├── technologies/
 ├── workflows/
-├── scripts/
 ├── docs/
 └── README.md
 ```
@@ -41,8 +40,14 @@ El Workbench se divide en cuatro grandes dominios de conocimiento.
 - **Core** — conocimiento universal e independiente de tecnología: metodologías, principios y patrones reutilizables.
 - **Technologies** — conocimiento específico de una tecnología concreta (Docker, React, TypeScript, Laravel, PostgreSQL, ...).
 - **Workflows** — orquestación del desarrollo asistido por IA: cómo combinar Core y Technologies para resolver tareas reales.
-- **Scripts** — herramientas de mantenimiento del propio Workbench (p. ej. `check-consistency.sh`).
 - **Docs** — documentación del propio Workbench: arquitectura, filosofía y convenciones.
+
+La validación de consistencia del repositorio se realiza con el command
+`workflows/commands/check-consistency.md`, acompañado del script
+`workflows/commands/check-consistency.sh` — una excepción documentada al
+principio de no almacenar código de aplicación, pues es una herramienta de
+mantenimiento del propio Workbench. Más detalle en
+[docs/conventions.md](docs/conventions.md).
 
 El detalle de cada dominio y de los tipos de recursos se documenta en [docs/architecture.md](docs/architecture.md).
 

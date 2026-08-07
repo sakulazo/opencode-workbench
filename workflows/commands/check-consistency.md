@@ -1,6 +1,6 @@
 ---
 name: check-consistency
-description: Repository consistency check for OpenCode Workbench. Runs the mechanical checks (scripts/check-consistency.sh) and reviews the semantic criteria (language per resource type, conceptual organization, SDD process coherence, links) against docs/conventions.md and docs/architecture.md. Use after any change before closing the task.
+description: Repository consistency check for OpenCode Workbench. Runs the mechanical checks (workflows/commands/check-consistency.sh) and reviews the semantic criteria (language per resource type, conceptual organization, SDD process coherence, links) against docs/conventions.md and docs/architecture.md. Use after any change before closing the task.
 ---
 
 # Check de consistencia del Workbench
@@ -15,7 +15,7 @@ Verificar que el repositorio cumple las convenciones definidas en
 
 1. Ejecuta las comprobaciones mecánicas desde la raíz del repositorio:
    ```bash
-   ./scripts/check-consistency.sh
+   ./workflows/commands/check-consistency.sh
    ```
    Corrige cualquier FAIL antes de continuar.
 2. Revisa cada criterio de la sección "Criterios semánticos" contra el estado
@@ -26,11 +26,26 @@ Verificar que el repositorio cumple las convenciones definidas en
 
 Este recurso es un command reutilizable: para usarlo como command de OpenCode,
 cópialo a `.opencode/command/check-consistency.md` en el proyecto donde quieras
-aplicarlo.
+aplicarlo (junto con `check-consistency.sh` en la misma carpeta).
+
+## Qué soluciona
+
+Este command previene que vuelvan a introducirse las inconsistencias ya
+detectadas en el repositorio: terminología divergente, idiomas mezclados en
+prosa, encabezados o enumeraciones de tipos incorrectos, espacios al final de
+línea y archivos Markdown con permisos de ejecución. Convierte la coherencia
+en algo verificable automáticamente en lugar de depender de la revisión manual.
+
+## Excepción
+
+`check-consistency.sh` es un script ejecutable asociado a este command. Es una
+**excepción documentada** al principio de que el repositorio no almacena código
+de aplicación: no es código de producto, sino una herramienta de mantenimiento
+del propio Workbench, y se mantiene junto al command que la utiliza.
 
 ## Comprobaciones mecánicas
 
-Cubiertas por `scripts/check-consistency.sh`:
+Cubiertas por `check-consistency.sh` (en esta misma carpeta):
 
 - Terminología: uso consistente de "Specification-Driven Development".
 - Sin frases mixtas español/inglés en prosa.
