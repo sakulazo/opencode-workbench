@@ -60,5 +60,6 @@ Detalle completo en [workflow.md](workflow.md).
 2. Lee [workflow.md](workflow.md) y [checklists.md](checklists.md).
 3. Copia las plantillas de [templates/](templates/) al directorio de trabajo (p. ej. `.specs/`).
 4. Completa cada fase en orden, sin saltar a la implementación hasta que el humano apruebe la especificación.
-5. Implementa **una tarea a la vez**, verificando cada una antes de avanzar.
-6. Cierra con la validación de conformidad (ver [tests/validate-spec.md](tests/validate-spec.md)).
+5. Tras Planificar, ejecuta la **puerta pre-implementación** sobre `requirements.md`, `design.md` y `tasks.md` (primer momento de [tests/validate-spec.md](tests/validate-spec.md)).
+6. Implementa **una tarea a la vez**, verificando cada una antes de avanzar.
+7. Cierra con la validación de conformidad (segundo momento de [tests/validate-spec.md](tests/validate-spec.md)).

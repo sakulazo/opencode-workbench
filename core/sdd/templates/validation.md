@@ -19,15 +19,15 @@
 
 ## Conformance check
 
-<Resultados de ejecutar la validación de especificación SDD — tests/validate-spec.md (momento de Validar).>
+<Results of running the SDD spec validation — tests/validate-spec.md (validation moment).>
 
-| Sección (validate-spec.md) | PASS | FAIL | N/A |
+| Section (validate-spec.md) | PASS | FAIL | N/A |
 | --- | --- | --- | --- |
-| A. Estructura requirements |  |  |  |
-| B. Calidad requirements |  |  |  |
+| A. Requirements structure |  |  |  |
+| B. Requirements quality |  |  |  |
 | C. Design |  |  |  |
 | D. Tasks |  |  |  |
-| E. Trazabilidad |  |  |  |
+| E. Traceability |  |  |  |
 
 ## Exceptions
 

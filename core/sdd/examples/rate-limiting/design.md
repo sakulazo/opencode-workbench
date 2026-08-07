@@ -36,7 +36,7 @@ The rate limiter is a pure module that tracks token buckets per API key. The mid
 ### Decision 3: Standard quota headers
 
 - **Decision**: Emit `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`.
-- **Rationale**: Interoperable with common client libraries and required by FR-2.
+- **Rationale**: Interoperable with common client libraries and required by FR-2. In a token bucket, `X-RateLimit-Reset` reports when the bucket refills to capacity.
 - **Alternatives considered**: Proprietary header names (rejected: weaker ecosystem support).
 
 ## Data model
@@ -45,12 +45,13 @@ The rate limiter is a pure module that tracks token buckets per API key. The mid
 Bucket {
   tokens: number        // current tokens, float
   lastRefillTs: number  // unix seconds of last refill
-  resetAt: number       // unix seconds when the window resets
 }
 Key: API key string (from X-API-Key header)
 Store: Map<string, Bucket>
 Config: { limit: number, windowSeconds: number }
 ```
+
+`resetAt` is not persisted: it is computed per check as the time the bucket refills to capacity (`now + (capacity - tokens) / refillRate`).
 
 ## Contracts
 
@@ -58,12 +59,13 @@ Config: { limit: number, windowSeconds: number }
 
 - `createRateLimiter(config) → RateLimiter` — validates config (throws on invalid values), returns a limiter instance.
 - `limiter.check(key) → Result` where:
-  - `Result = { allowed: true, remaining, resetAt }` — consumes one token.
-  - `Result = { allowed: false, retryAfterSeconds, resetAt }` — bucket empty.
+  - `Result = { allowed: true, remaining, resetAt }` — consumes one token; `resetAt` is the computed time the bucket refills to capacity.
+  - `Result = { allowed: false, retryAfterSeconds, resetAt }` — bucket empty; `resetAt` computed as above.
 
 ### Middleware behavior
 
-- Request with missing/invalid key: 401, unchanged existing behavior.
+The auth check runs before this middleware; requests with a missing or invalid key never reach it (401 handled there, unchanged existing behavior).
+
 - Request with exhausted quota: **429**, headers `Retry-After: <seconds>` plus quota headers.
 - Processed request: **200-level**, response headers `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`.
 
@@ -83,4 +85,4 @@ Config: { limit: number, windowSeconds: number }
 
 - Multi-instance deployment later → single-instance assumption is documented in requirements; in-memory decision is reversible to Redis without API change.
 - Memory growth from many keys → idle-entry sweep bounded to window size.
-- Off-by-one at window boundary → lazy refill uses last refill timestamp and is covered by an explicit boundary test.
+- Off-by-one at any timestamp → lazy refill derives tokens from `lastRefillTs` (continuous model), covered by an explicit refill-timing test.

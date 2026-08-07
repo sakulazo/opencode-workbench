@@ -19,14 +19,15 @@ Add a rate-limiting middleware to the existing HTTP service. The middleware sits
 
 ## Non-goals
 
-- Distributed/cross-instance rate limiting.
+- Distributed/cross-instance rate limiting (tracked as future work).
 - Authentication or API key issuance (already exists).
 - Per-user or per-endpoint quotas beyond the single global default.
+- Per-client whitelisting or higher-tier quotas.
 
 ## Assumptions
 
 - The service runs as a single instance for the foreseeable future.
-- An API key is always present and valid on public endpoints (`X-API-Key` header).
+- The API key is always present and valid on the requests that reach the rate limiter: the auth check runs before it and rejects missing or expired keys with 401.
 - The token bucket state may be lost on restart without contractual impact.
 
 ## Functional requirements
@@ -42,11 +43,12 @@ Each request to a public endpoint is checked against the quota for its API key. 
 
 ### FR-2: Report quota in response headers
 
-Every response to a public endpoint includes the client's current quota state.
+Every response that passes through the rate limiter (processed or rejected with 429) includes the client's current quota state.
 
 **Acceptance criteria:**
 
 - Given a processed request, when the response is returned, then it includes `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset`.
+- Given a rejected request with exhausted quota, when the 429 response is returned, then it includes the same three quota headers alongside `Retry-After`.
 
 ### FR-3: Allow a bounded burst
 
@@ -63,14 +65,14 @@ The limit (requests per window) and the window (seconds) are configurable at ser
 
 **Acceptance criteria:**
 
-- Given the service starts with `RATE_LIMIT_LIMIT=100` and `RATE_LIMIT_WINDOW=60`, when a client sends 100 requests in 60 seconds, then none are rejected.
-- Given the same configuration, when a client sends 101 requests in 60 seconds, then the 101st is rejected with 429.
+- Given the service starts with `RATE_LIMIT_LIMIT=100` and `RATE_LIMIT_WINDOW=60`, when a client sends 100 requests back-to-back, then none are rejected.
+- Given the same configuration, when the client sends 101 requests back-to-back, then the 101st is rejected with 429.
 
 ## Edge cases and error scenarios
 
 - First request from a new key: bucket is initialized full; the request is processed.
 - Expired key or missing key header: request is rejected with 401 before rate limiting (unchanged existing behavior).
-- Request exactly at the window boundary: handled by the last-refill timestamp; no off-by-one 429 on the boundary request.
+- Refill is continuous: a request right after a refill sees the updated quota, with no jumps or off-by-one errors at any timestamp.
 - Restart of the service: bucket state is lost; all clients start with a full bucket.
 - Memory growth from many keys: entries idle for more than the window are swept to bound memory usage.
 
@@ -79,8 +81,3 @@ The limit (requests per window) and the window (seconds) are configurable at ser
 - In-memory storage only; no external infrastructure (Redis, DB) may be introduced.
 - The rate-limit check must complete in O(1) per request on average.
 - Limit and window must be positive integers; invalid configuration must fail fast at startup.
-
-## Out of scope
-
-- Distributed limiting across multiple instances (tracked as future work).
-- Per-client whitelisting or higher-tier quotas.

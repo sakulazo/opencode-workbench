@@ -95,14 +95,16 @@ Los artefactos de especificación se versionan en el repositorio, normalmente en
 - Numerar las tareas (T1, T2, ...) con alcance, ficheros, criterio de aceptación y dependencias.
 - Marcar las dependencias entre tareas y el orden de ejecución.
 - Toda tarea debe tener criterios de aceptación que una IA pueda verificar.
+- Ejecutar la **puerta pre-implementación** sobre `requirements.md`, `design.md` y `tasks.md` (primer momento de [tests/validate-spec.md](tests/validate-spec.md)) antes de pasar a Implementar.
 
-**Salida**: `tasks.md` completado.
+**Salida**: `tasks.md` completado y puerta pre-implementación pasada.
 
 **Definition of Done** (revisión humana):
 - Cada tarea es pequeña, con alcance acotado a ficheros concretos.
 - Cada tarea tiene un criterio de aceptación verificable.
 - Existe cobertura trazable de todos los requisitos.
 - El orden de ejecución respeta las dependencias.
+- La puerta pre-implementación de [tests/validate-spec.md](tests/validate-spec.md) pasa sin FAIL (o con excepciones justificadas).
 
 ---
 

@@ -10,7 +10,7 @@
 - **Scope**: Create `src/rate-limiter.js` with a pure `createRateLimiter(config)` that validates config and returns a `check(key)` function implementing a lazy-refill token bucket. Include idle-entry sweep.
 - **Files**: `src/rate-limiter.js`, `test/rate-limiter.test.js`
 - **Depends on**: —
-- **Acceptance**: `npm test -- rate-limiter` passes. Tests cover: refill after idle, burst up to capacity (FR-3), exhaustion → `allowed: false` with `retryAfterSeconds` (FR-1), config validation failure (FR-4), idle entries swept.
+- **Acceptance**: `npm test -- rate-limiter` passes. Tests cover: refill after idle, burst up to capacity (FR-3), exhaustion → `allowed: false` with `retryAfterSeconds` (FR-1), config validation failure (FR-4), first request from a new key initializes a full bucket, restart loses state (new bucket starts full), and idle entries swept.
 
 ## T2: Wire the middleware with 429 rejection
 
@@ -21,10 +21,10 @@
 
 ## T3: Emit quota response headers
 
-- **Scope**: Add `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` to every public endpoint response. Make limit and window configurable via `RATE_LIMIT_LIMIT` / `RATE_LIMIT_WINDOW`, failing fast on invalid values.
+- **Scope**: Add `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` to every response that passes through the rate limiter (processed and 429). Make limit and window configurable via `RATE_LIMIT_LIMIT` / `RATE_LIMIT_WINDOW`, failing fast on invalid values.
 - **Files**: `src/middleware/rate-limit.js`, `src/server.js`, `test/rate-limit.middleware.test.js`
 - **Depends on**: T2
-- **Acceptance**: Tests verify all three headers on processed responses (FR-2) and that invalid startup config aborts the service (FR-4). Manual run with 100 req/min config accepts 100 and rejects the 101st.
+- **Acceptance**: Tests verify all three headers on processed responses and on 429 responses (FR-2) and that invalid startup config aborts the service (FR-4). Manual run with `RATE_LIMIT_LIMIT=100` / `RATE_LIMIT_WINDOW=60` accepts a burst of 100 back-to-back requests and rejects the 101st.
 
 ## Traceability
 
@@ -36,6 +36,6 @@
 | FR-4 | T1, T3 |
 | First request from new key | T1 |
 | Missing key header → 401 | T2 |
-| Window boundary | T1 |
+| Continuous refill | T1 |
 | Restart loses state | T1 (documented in design) |
 | Memory sweep | T1 |

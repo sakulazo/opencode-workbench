@@ -60,6 +60,7 @@ Listas de verificación operativas para ejecutar el [workflow.md](workflow.md). 
 - [ ] Tareas numeradas (T1, T2, ...) con orden de ejecución.
 - [ ] Dependencias entre tareas marcadas y respetadas por el orden.
 - [ ] Todos los requisitos tienen tareas que los cubren (trazabilidad).
+- [ ] Puerta pre-implementación ejecutada ([tests/validate-spec.md](tests/validate-spec.md)) sin FAIL sin excepción.
 - [ ] Aprobado por el humano.
 
 ---

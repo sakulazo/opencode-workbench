@@ -44,7 +44,7 @@ En ambos momentos, un criterio en FAIL debe resolverse (o exceptuarse explícita
 - [ ] Cada requisito funcional tiene criterios de aceptación en formato Given / When / Then.
 - [ ] Existe una sección de casos límite y escenarios de error.
 - [ ] Existe una sección de restricciones.
-- [ ] Existe una sección de "fuera de alcance" (o el alcance es evidentemente completo).
+- [ ] Los no-metas que difieren trabajo indican dónde se hace seguimiento.
 
 ### B. Calidad del contenido de `requirements.md`
 

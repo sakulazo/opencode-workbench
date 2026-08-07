@@ -24,7 +24,7 @@
 
 ## Non-goals
 
-- <Explicitly NOT included 1>
+- <Explicitly NOT included 1. If deferred, note where it is tracked.>
 - <Explicitly NOT included 2>
 
 ## Assumptions
@@ -59,7 +59,3 @@
 
 - <Performance / security / compatibility constraint 1>.
 - <Constraint 2>.
-
-## Out of scope
-
-- <Anything intentionally deferred, with a note on where it is tracked>.
