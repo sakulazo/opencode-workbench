@@ -1,4 +1,4 @@
-# Philosophy
+# Filosofía
 
 ## Propósito
 

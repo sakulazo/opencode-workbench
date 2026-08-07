@@ -63,7 +63,7 @@ Una buena especificación define el **comportamiento externo** del software, no 
 - Lenguaje ubicuo del dominio, no implementación concreta.
 - Completa y concisa: cubre el camino crítico sin enumerar todos los casos.
 
-### Señales de una spec débil
+### Señales de una especificación débil
 
 - "El usuario puede iniciar sesión" (sin condiciones, contratos ni errores).
 - Criterios de aceptación no medibles ("funciona bien", "carga rápido").
@@ -79,7 +79,7 @@ Una buena especificación define el **comportamiento externo** del software, no 
 | Proceso | Describir → Generar → Probar | Contexto → Especificar → Diseñar → Planificar → Implementar → Validar |
 | Decisiones de diseño | La IA las toma | El humano las toma |
 | Especificación | Vive en el historial del chat | Artefacto versionado |
-| Aceptación | Aceptar si funciona | Aceptar si cumple la spec |
+| Aceptación | Aceptar si funciona | Aceptar si cumple la especificación |
 | Mejor para | Prototipos, exploración | Sistemas complejos, cambios acoplados |
 
 **SDD y TDD no son lo mismo**: TDD escribe primero las pruebas que guían el código; SDD escribe primero la especificación de comportamiento que guía el diseño, las tareas y la validación. Son complementarias: TDD se usa durante la implementación para verificar una tarea contra su criterio de aceptación.
@@ -107,7 +107,7 @@ No usar SDD cuando:
 
 ## Roles
 
-- **Humano**: define el objetivo, aprueba la spec, revisa el diseño, acepta o rechaza el resultado.
+- **Humano**: define el objetivo, aprueba la especificación, revisa el diseño, acepta o rechaza el resultado.
 - **IA**: transforma la intención en artefactos estructurados, propone diseño, implementa tareas y genera las pruebas.
 
 La IA actúa como redactor técnico y ejecutor; el juicio de ingeniería permanece en el humano.
@@ -116,9 +116,9 @@ La IA actúa como redactor técnico y ejecutor; el juicio de ingeniería permane
 
 ## Límites y riesgos
 
-- **Spec drift**: el código se aleja de la spec durante la implementación. Se mitiga implementando una tarea a la vez y validando al final.
-- **Alucinación**: la IA inventa comportamiento no especificado. Se mitiga con specs explícitas y verificación de conformidad.
+- **Spec drift**: el código se aleja de la especificación durante la implementación. Se mitiga implementando una tarea a la vez y validando al final.
+- **Alucinación**: la IA inventa comportamiento no especificado. Se mitiga con especificaciones explícitas y verificación de conformidad.
 - **Sobre-proceso**: especificar en exceso tareas triviales añade fricción. La elección de cuándo aplicar SDD es parte del método.
-- **Specs obsoletas**: una spec que no evoluciona con el código pierde su valor. Toda modificación de alcance debe reflejarse en la spec.
+- **Especificaciones obsoletas**: una especificación que no evoluciona con el código pierde su valor. Toda modificación de alcance debe reflejarse en la especificación.
 
 El proceso operativo se describe en [workflow.md](workflow.md).

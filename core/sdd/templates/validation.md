@@ -19,13 +19,15 @@
 
 ## Conformance check
 
-<Results of running the SDD spec validation — tests/validate-spec.md.>
+<Resultados de ejecutar la validación de especificación SDD — tests/validate-spec.md (momento de Validar).>
 
-- Required sections present: PASS / FAIL
-- Acceptance criteria measurable: PASS / FAIL
-- Edge cases covered: PASS / FAIL
-- Tasks small and verifiable: PASS / FAIL
-- No orphan code / no uncovered requirement: PASS / FAIL
+| Sección (validate-spec.md) | PASS | FAIL | N/A |
+| --- | --- | --- | --- |
+| A. Estructura requirements |  |  |  |
+| B. Calidad requirements |  |  |  |
+| C. Design |  |  |  |
+| D. Tasks |  |  |  |
+| E. Trazabilidad |  |  |  |
 
 ## Exceptions
 

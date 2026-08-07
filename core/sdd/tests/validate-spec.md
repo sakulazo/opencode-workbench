@@ -1,25 +1,37 @@
 <!--
   SDD spec validation — the skill's "test runner".
 
-  Usage: point an AI agent at a specification produced with the SDD skill
-  (requirements.md, design.md, tasks.md) and ask it to run this validation.
-  It returns PASS/FAIL per criterion with evidence. Any FAIL must be resolved
-  (or explicitly excepted) before the spec is approved for implementation.
+  Runs at two moments:
+  (a) Pre-implementation gate: after the planning phase (tasks.md approved),
+      validate the spec DOCUMENTS (requirements.md, design.md, tasks.md) and
+      get approval before any code is written.
+  (b) Post-implementation conformance: during the validation phase, re-run it
+      against the final state (implemented result + validation.md) to confirm
+      the spec is met.
+
+  In both moments it returns PASS/FAIL per criterion with evidence. Any FAIL
+  must be resolved (or explicitly excepted) before the spec is approved (a)
+  or before the result is accepted (b).
 -->
 
 # Validación de especificación SDD
 
 ## Propósito
 
-Comprobar que una especificación producida con el skill SDD cumple los criterios mínimos de calidad antes de ser aprobada e implementada. Se aplica sobre `requirements.md`, `design.md` y `tasks.md`.
+Comprobar que una especificación producida con el skill SDD cumple los criterios mínimos de calidad. Se aplica en dos momentos:
+
+- **Tras Planificar (Fase 3)**: como puerta de calidad de los documentos (`requirements.md`, `design.md`, `tasks.md`) antes de aprobar e implementar la especificación.
+- **Durante Validar (Fase 5)**: como check de conformidad sobre el resultado final, complementando la matriz de `validation.md`.
+
+En ambos momentos, un criterio en FAIL debe resolverse (o exceptuarse explícitamente) antes de la aprobación correspondiente.
 
 ## Instrucciones para el agente
 
-1. Lee los documentos de especificación del cambio.
+1. Lee los documentos de especificación del cambio (y, en el momento de Validar, el resultado implementado y `validation.md`).
 2. Evalúa cada criterio de la sección "Criterios" contra el contenido real de los documentos.
 3. Marca cada criterio como **PASS**, **FAIL** o **N/A**, citando la evidencia concreta (sección, requisito, tarea o línea) en la que te basas. Un criterio marcado PASS sin evidencia no es válido.
 4. Si algo es FAIL, indica exactamente qué falta y dónde debería añadirse.
-5. Devuelve un resumen final: número de PASS/FAIL y decisión de aprobación (APROBADO / REQUIERE CAMBIOS / RECHAZADO).
+5. Devuelve un resumen final: número de PASS/FAIL y decisión de aprobación (APROBADO / REQUIERE CAMBIOS / RECHAZADO), indicando el momento en que se ha ejecutado la validación.
 
 ## Criterios
 

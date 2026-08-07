@@ -17,8 +17,12 @@ ROOT="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 PASS=0
 FAILURES=0
 
+# Exclude the command's own documentation: it may legitimately reference the
+# exact terms these checks detect (e.g. "Test data").
 grep_md() {
-  grep -rInE --include='*.md' --exclude-dir='.git' "$1" "$ROOT" 2>/dev/null || true
+  grep -rInE --include='*.md' --exclude-dir='.git' \
+    --exclude='check-consistency.md' \
+    "$1" "$ROOT" 2>/dev/null || true
 }
 
 check_pattern() {

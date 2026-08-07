@@ -33,9 +33,9 @@ Los artefactos de especificación se versionan en el repositorio, normalmente en
 - Identificar el estado actual: módulos afectados, contratos existentes, convenciones.
 - Determinar si el cambio justifica SDD o si debe resolverse de forma directa (ver "Cuándo usar" en [SKILL.md](SKILL.md)).
 
-**Salida**: resumen de contexto (parágrafo breve en `requirements.md`).
+**Salida**: resumen de contexto (parágrafo breve en las secciones Purpose/Scope de `requirements.md`; el contexto técnico detallado se recogerá en `design.md`).
 
-**Definition of Done**: objetivo unívoco, alcance conocido, se ha decidido aplicar SDD.
+**Definition of Done**: objetivo unívoco, alcance conocido, se ha decidido aplicar SDD, aprobado por el humano.
 
 ---
 
@@ -108,7 +108,7 @@ Los artefactos de especificación se versionan en el repositorio, normalmente en
 
 ## Fase 4: Implementar
 
-**Objetivo**: generar código conforme a la spec, una tarea a la vez.
+**Objetivo**: generar código conforme a la especificación, una tarea a la vez.
 
 **Entrada**: `tasks.md` aprobado.
 
@@ -123,7 +123,7 @@ Los artefactos de especificación se versionan en el repositorio, normalmente en
 **Definition of Done**:
 - Todas las tareas completadas y sus criterios de aceptación verificados.
 - No hay código sin tarea asociada (sin *código huérfano*).
-- Los cambios de alcance detectados están registrados en la spec.
+- Los cambios de alcance detectados están registrados en la especificación.
 
 ---
 
@@ -131,11 +131,11 @@ Los artefactos de especificación se versionan en el repositorio, normalmente en
 
 **Objetivo**: comprobar que el resultado cumple la especificación completa.
 
-**Entrada**: implementación terminada y `validation.md` preparado.
+**Entrada**: implementación terminada y la plantilla `templates/validation.md` copiada a `.specs/validation.md`.
 
 **Acciones**:
-- Completar `validation.md` con la matriz de trazabilidad spec → pruebas (usar [templates/validation.md](templates/validation.md)).
-- Ejecutar la validación de conformidad (ver [tests/validate-spec.md](tests/validate-spec.md)).
+- Completar `validation.md` con la matriz de trazabilidad especificación → pruebas (usar [templates/validation.md](templates/validation.md)).
+- Re-ejecutar la validación de conformidad sobre el estado final (ver [tests/validate-spec.md](tests/validate-spec.md)): es el segundo de los dos momentos descritos en ese documento, y complementa la matriz de `validation.md`.
 - Verificar cada criterio de aceptación y cada caso límite de `requirements.md`.
 - Revisar el resultado con criterio de ingeniería (seguridad, rendimiento, mantenibilidad), no solo funcionalidad.
 
@@ -159,7 +159,7 @@ Cualquier hallazgo durante la implementación o validación que modifique requis
   Hallazgo que cambia alcance ──▶ Actualizar requirements / design / tasks ──▶ Reprobar
 ```
 
-La spec es el documento vivo; el código siempre sigue a la spec, nunca al revés.
+La especificación es el documento vivo; el código siempre sigue a la especificación, nunca al revés.
 
 ### Cambios fuera del flujo SDD
 
@@ -167,11 +167,11 @@ Un cambio de alcance puede llegar por una vía distinta al flujo (p. ej. ajustes
 pedidos en una sesión normal, sin pasar por especificar → diseñar → planificar). Trátalo
 como un hallazgo del mismo modo:
 
-- Compara el resultado con los artefactos de la spec de la feature afectada.
+- Compara el resultado con los artefactos de la especificación de la feature afectada.
 - Si hay discrepancia (campo, contrato, estado o comportamiento nuevos),
   avísala explícitamente al humano y propón actualizar requirements / design /
   tasks **antes de dar la tarea por cerrada**.
-- No modifiques la spec sin aprobación humana. Si el cambio sí pasó por el
+- No modifiques la especificación sin aprobación humana. Si el cambio sí pasó por el
   flujo (implementar → validar), deja que la validación lo gestione y no
   dupliques el aviso.
 
@@ -182,9 +182,9 @@ renombrar un botón).
 
 ## Gestión de *spec drift*
 
-- Implementar una tarea a la vez evita que el código se aleje de la spec.
+- Implementar una tarea a la vez evita que el código se aleje de la especificación.
 - Toda desviación de diseño detectada se registra como hallazgo y se decide explícitamente.
-- Al validar, la conformidad con la spec es el criterio principal de aceptación.
+- Al validar, la conformidad con la especificación es el criterio principal de aceptación.
 
 ---
 

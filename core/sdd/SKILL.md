@@ -45,12 +45,12 @@ Detalle completo en [workflow.md](workflow.md).
 
 ## Documentos de referencia
 
-- [methodology.md](methodology.md) — principios, qué es una buena spec y cuándo aplicar SDD.
+- [methodology.md](methodology.md) — principios, qué es una buena especificación y cuándo aplicar SDD.
 - [workflow.md](workflow.md) — proceso detallado, artefactos y Definition of Done por fase.
 - [checklists.md](checklists.md) — listas de verificación operativas para revisar y validar.
 - [templates/](templates/) — plantillas reutilizables (`requirements.md`, `design.md`, `tasks.md`, `validation.md`).
 - [examples/](examples/) — caso de ejemplo completo (`rate-limiting/`).
-- [tests/](tests/) — validación de conformidad de una especificación.
+- [tests/](tests/) — validación de la especificación en dos momentos: puerta previa a la implementación y check de conformidad final.
 
 ---
 
@@ -59,6 +59,6 @@ Detalle completo en [workflow.md](workflow.md).
 1. Confirma que la tarea justifica SDD (ver "Cuándo usar").
 2. Lee [workflow.md](workflow.md) y [checklists.md](checklists.md).
 3. Copia las plantillas de [templates/](templates/) al directorio de trabajo (p. ej. `.specs/`).
-4. Completa cada fase en orden, sin saltar a la implementación hasta que el humano apruebe la spec.
+4. Completa cada fase en orden, sin saltar a la implementación hasta que el humano apruebe la especificación.
 5. Implementa **una tarea a la vez**, verificando cada una antes de avanzar.
 6. Cierra con la validación de conformidad (ver [tests/validate-spec.md](tests/validate-spec.md)).

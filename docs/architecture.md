@@ -1,4 +1,4 @@
-# Architecture
+# Arquitectura
 
 ## Propósito
 

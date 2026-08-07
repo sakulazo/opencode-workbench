@@ -49,7 +49,7 @@ Cubiertas por `check-consistency.sh` (en esta misma carpeta):
 
 - Terminología: uso consistente de "Specification-Driven Development".
 - Sin frases mixtas español/inglés en prosa.
-- Recursos auxiliares: lista unificada entre README.md y architecture.md.
+- Recursos auxiliares: sin términos obsoletos (p. ej. "Test data").
 - Títulos de secciones en español: "Documentación específica".
 - Encabezados de tipos en Title Case (Skills, Agents, Commands, MCPs).
 - Enumeraciones de tipos completas (skills, agents, commands, mcps).
