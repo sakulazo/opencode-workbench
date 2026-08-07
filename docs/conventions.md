@@ -54,8 +54,11 @@ Se utilizarán las siguientes convenciones lingüísticas:
 
 **Excepción de idioma**: las plantillas (templates) y los ejemplos (examples)
 se redactan en inglés, por ser artefactos reutilizables orientados al código y
-al trabajo con IA. El resto de la documentación asociada a un recurso (SKILL.md,
-guías, checklists) se mantiene en español.
+al trabajo con IA. El frontmatter de los recursos (p. ej. `description` en
+`SKILL.md`) también se redacta en inglés por estandarización: las herramientas
+de IA lo consumen de forma más fiable en ese idioma. El resto de la
+documentación asociada a un recurso (SKILL.md, guías, checklists) se mantiene
+en español.
 
 ---
 
