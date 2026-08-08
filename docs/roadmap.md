@@ -69,9 +69,10 @@ Campos opcionales:
 **No** se almacena `used_by`: es una relación inversa que se queda obsoleta
 al escribirse. Debe derivarse del análisis, no mantenerse a mano.
 
-Hoy solo `SKILL.md` dispone de frontmatter (`core/sdd/SKILL.md`). La
-incorporación de metadata es incremental: ningún recurso existente se rompe por
-carecer de ella, pero todo recurso nuevo deberá incluirla.
+Hoy disponen de frontmatter `core/sdd/SKILL.md` y
+`workflows/commands/check-consistency.md`. La incorporación de metadata es
+incremental: ningún recurso existente se rompe por carecer de ella, pero todo
+recurso nuevo deberá incluirla.
 
 Relacionado: ADR 0002 (idioma del frontmatter), fichas 3, 13 y 14.
 
@@ -195,8 +196,8 @@ Relacionado: fichas 1, 3, 14 y 10 (informe de métricas).
 
 ### 9. Ciclo de vida del recurso — ADOPTADA
 
-**Intención**: definir un flujo de madurez claro (Draft → Review → Experimental
-→ Stable → Deprecated → Archived) que facilite la gobernanza del repositorio y
+**Intención**: definir un flujo de madurez claro (Draft → Experimental →
+Stable → Deprecated → Archived) que facilite la gobernanza del repositorio y
 dé significado a los estados de la ficha 3.
 
 Se documenta el ciclo de vida de un recurso:

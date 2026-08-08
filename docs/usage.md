@@ -92,8 +92,12 @@ Development compatible con OpenCode. Instálalo y configura la integración:
 specify init . --integration opencode
 ```
 
-Esto instala los comandos `/speckit.*` (o skills equivalentes con
-`--integration-options="--skills"`).
+Esto instala los comandos `/speckit.*` en `.opencode/commands/` de opencode.
+
+> **Nota**: la integración de opencode instala comandos slash (`/speckit.*`), no
+> skills. La opción `--integration-options="--skills"` de SpecKit solo aplica a
+> agentes con integración basada en skills (p. ej. Claude Code, Codex) y no es
+> válida para opencode.
 
 ### Equivalencias
 
