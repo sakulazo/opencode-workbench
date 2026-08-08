@@ -153,9 +153,9 @@ se gradúa por tipo para no añadir ruido:
   usar, dependencias, ejemplos y recursos relacionados.
 - **Templates y examples**: solo propósito y ámbito de aplicación.
 
-`SKILL.md` ya cubre "Cuándo usar" y "Cuándo NO usar"
-(`core/sdd/SKILL.md:14-25`). El contrato completa la estructura existente, no
-la sustituye.
+`SKILL.md` ya cubre las secciones "Cuándo usar" y "Cuándo NO usar"
+(`core/sdd/SKILL.md`, secciones "Cuándo usar" y "Cuándo NO usar"). El contrato
+completa la estructura existente, no la sustituye.
 
 ### 7. Grafo de dependencias — APLAZADA
 

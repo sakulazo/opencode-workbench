@@ -109,3 +109,5 @@ OpenCode, así como su combinación con SpecKit, se documenta en
 OpenCode Workbench es un proyecto en evolución continua.
 
 Su contenido crecerá progresivamente conforme se identifiquen nuevas metodologías, tecnologías y patrones reutilizables para el desarrollo asistido por IA, priorizando siempre la calidad, la coherencia y la mantenibilidad sobre la cantidad de recursos disponibles.
+
+La evolución planificada se registra en [docs/roadmap.md](docs/roadmap.md), y las decisiones arquitectónicas tomadas se documentan como ADR en [docs/decisions/](docs/decisions/).
