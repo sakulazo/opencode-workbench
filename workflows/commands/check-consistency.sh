@@ -10,6 +10,9 @@
 #   ./workflows/commands/check-consistency.sh [repo-root]
 #
 # Exit code 0: all checks pass. 1: at least one check failed.
+#
+# Requirements: Bash 4+ and GNU coreutils (realpath -m, grep --exclude-dir,
+# find -print0). Not portable to macOS/BSD without GNU coreutils installed.
 
 set -u
 

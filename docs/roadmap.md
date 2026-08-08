@@ -202,7 +202,7 @@ dé significado a los estados de la ficha 3.
 Se documenta el ciclo de vida de un recurso:
 
 ```
-draft → review → experimental → stable → deprecated → archived
+draft → experimental → stable → deprecated → archived
 ```
 
 La transición a `stable` o `deprecated` requiere una revisión explícita. La

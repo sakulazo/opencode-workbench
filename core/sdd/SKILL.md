@@ -4,7 +4,7 @@ description: Specification-Driven Development (SDD) for AI-assisted development.
 type: skill
 version: 1.0
 status: stable
-purpose: Guiar la implementación asistida por IA basada en especificación versionada como fuente de verdad, con aprobación humana por fase.
+purpose: Guide AI-assisted implementation driven by a versioned specification as the single source of truth, with human approval at every phase.
 tags: [sdd]
 ---
 

@@ -2,9 +2,9 @@
 name: check-consistency
 description: Repository consistency check for OpenCode Workbench. Runs the mechanical checks (workflows/commands/check-consistency.sh) and reviews the semantic criteria (language per resource type, conceptual organization, SDD process coherence, links) against docs/conventions.md and docs/architecture.md. Use after any change before closing the task.
 type: command
-version: 1.1
+version: 1.2
 status: stable
-purpose: Verificar que el repositorio cumple las convenciones de consistencia y gobernanza del Workbench tras un cambio.
+purpose: Verify that the repository complies with the Workbench consistency and governance conventions after a change.
 tags: [governance, consistency]
 ---
 
@@ -32,6 +32,22 @@ Verificar que el repositorio cumple las convenciones definidas en
 Este recurso es un command reutilizable: para usarlo como command de OpenCode,
 cópialo a `.opencode/commands/check-consistency.md` en el proyecto donde quieras
 aplicarlo (junto con `check-consistency.sh` en la misma carpeta).
+
+**Requisito de ejecución**: `check-consistency.sh` requiere Bash 4+ y
+coreutils GNU (`realpath -m`, `grep --exclude-dir`, `find -print0`). No es
+portátil a macOS/BSD por defecto: allí debe instalarse GNU coreutils.
+
+## Automatización
+
+Para que la validación se ejecute sola y no dependa de la memoria humana:
+
+- **Hook de git**: el repositorio incluye un hook de pre-commit en
+  `.githooks/pre-commit`. Actívalo una vez por clon con:
+  `git config core.hooksPath .githooks`. Desde entonces, cada `git commit`
+  ejecuta `check-consistency.sh` y se aborta si algo falla.
+- **CI (GitHub Actions)**: el workflow `.github/workflows/consistency.yml`
+  ejecuta el script en cada push y pull request, bloqueando la fusión si hay
+  inconsistencias.
 
 ## Qué soluciona
 

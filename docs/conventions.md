@@ -147,6 +147,12 @@ comprobaciones mecánicas mediante
 `workflows/commands/check-consistency.sh` y revisión semántica guiada. Se
 recomienda ejecutarlo tras cada cambio, antes de cerrar la tarea o el commit.
 
+La ejecución puede automatizarse: un hook de pre-commit
+(`.githooks/pre-commit`, activable con `git config core.hooksPath .githooks`)
+la lanza en cada commit, y el workflow `.github/workflows/consistency.yml` en
+cada push y pull request. El script requiere Bash 4+ y coreutils GNU; no es
+portátil a macOS/BSD sin GNU coreutils instalado.
+
 El script `check-consistency.sh` es una **excepción documentada** al principio
 de que el repositorio no almacena código de aplicación: es una herramienta de
 mantenimiento del propio Workbench, no código de producto, y vive junto al

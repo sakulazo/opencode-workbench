@@ -49,6 +49,11 @@ principio de no almacenar código de aplicación, pues es una herramienta de
 mantenimiento del propio Workbench. Más detalle en
 [docs/conventions.md](docs/conventions.md).
 
+La validación puede ejecutarse también de forma automática: un hook de
+pre-commit en `.githooks/pre-commit` (activable con
+`git config core.hooksPath .githooks`) la lanza en cada commit, y el workflow
+`.github/workflows/consistency.yml` la lanza en cada push y pull request.
+
 El detalle de cada dominio y de los tipos de recursos se documenta en [docs/architecture.md](docs/architecture.md).
 
 ---
@@ -111,3 +116,9 @@ OpenCode Workbench es un proyecto en evolución continua.
 Su contenido crecerá progresivamente conforme se identifiquen nuevas metodologías, tecnologías y patrones reutilizables para el desarrollo asistido por IA, priorizando siempre la calidad, la coherencia y la mantenibilidad sobre la cantidad de recursos disponibles.
 
 La evolución planificada se registra en [docs/roadmap.md](docs/roadmap.md), y las decisiones arquitectónicas tomadas se documentan como ADR en [docs/decisions/](docs/decisions/).
+
+---
+
+## Licencia
+
+Distribuido bajo la [MIT License](LICENSE).

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Workbench consistency check before every commit.
+#
+# Requires check-consistency.sh (bash 4+ and GNU coreutils). The script
+# exits non-zero if any check fails, aborting the commit.
+
+set -eu
+
+ROOT=$(git rev-parse --show-toplevel)
+cd "$ROOT"
+
+if ! ./workflows/commands/check-consistency.sh; then
+  echo "==> Check de consistencia fallido. Corrige las inconsistencias antes de commitear." >&2
+  exit 1
+fi
