@@ -151,3 +151,22 @@ El script `check-consistency.sh` es una **excepción documentada** al principio
 de que el repositorio no almacena código de aplicación: es una herramienta de
 mantenimiento del propio Workbench, no código de producto, y vive junto al
 command que lo utiliza.
+
+Además de la terminología y el formato, la validación mecánica cubre desde
+ADR-0004 las reglas verificables de integridad estructural:
+
+- Los enlaces relativos en Markdown deben apuntar a ficheros o directorios
+  existentes.
+- Todo recurso que declare frontmatter debe incluir los campos obligatorios
+  `name`, `type`, `version`, `status`, `purpose` y `tags`. La incorporación de
+  metadata es incremental: los recursos sin frontmatter no se exigen.
+- El campo `status` solo admite los estados del ciclo de vida (`draft`,
+  `experimental`, `stable`, `deprecated`, `archived`).
+- Ningún recurso Markdown debe quedar huérfano (sin ser referenciado), salvo
+  las entradas del allowlist: `README.md`, `docs/roadmap.md` y
+  `docs/decisions/`.
+- Los directorios vacíos deben contener un `.gitkeep`.
+- Las referencias a ficheros en prosa que sigan una ruta canónica (`./`, `../`
+  o dominio `core/`, `technologies/`, `workflows/`, `docs/`) deben resolver a
+  ficheros existentes. Las plantillas y ejemplos están exentos: describen
+  artefactos de proyectos ajenos al Workbench.

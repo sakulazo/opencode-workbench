@@ -1,6 +1,11 @@
 ---
 name: check-consistency
 description: Repository consistency check for OpenCode Workbench. Runs the mechanical checks (workflows/commands/check-consistency.sh) and reviews the semantic criteria (language per resource type, conceptual organization, SDD process coherence, links) against docs/conventions.md and docs/architecture.md. Use after any change before closing the task.
+type: command
+version: 1.1
+status: stable
+purpose: Verificar que el repositorio cumple las convenciones de consistencia y gobernanza del Workbench tras un cambio.
+tags: [governance, consistency]
 ---
 
 # Check de consistencia del Workbench
@@ -37,7 +42,10 @@ conformidad" o "Conformidad post-implementación" en lugar de "validación de
 conformidad", "capacity" en los criterios de ráfaga del ejemplo en lugar de
 "configured limit"), idiomas mezclados en prosa (p. ej. "edge cases", "la
 feature", "specify ->"), encabezados o enumeraciones de tipos incorrectos,
-espacios al final de línea y archivos Markdown con permisos de ejecución.
+espacios al final de línea, archivos Markdown con permisos de ejecución y,
+desde ADR-0004, inconsistencias estructurales (enlaces rotos, metadata
+incompleta, estados inválidos, recursos huérfanos, directorios vacíos sin
+`.gitkeep` y referencias a ficheros inexistentes).
 Convierte la coherencia en algo verificable automáticamente en lugar de depender
 de la revisión manual.
 
@@ -68,6 +76,25 @@ Cubiertas por `check-consistency.sh` (en esta misma carpeta):
 - Enumeraciones de tipos completas (skills, agents, commands, mcps).
 - Sin espacios al final de línea en Markdown.
 - Archivos `.md` sin permisos de ejecución.
+
+### Integridad estructural (ADR-0004)
+
+Desde ADR-0004 el script verifica también la integridad estructural del
+repositorio:
+
+- Enlaces relativos: ningún destino de `[...](...)` o `[id]: ...` debe apuntar
+  a un fichero o directorio inexistente.
+- Metadata obligatoria: todo recurso con frontmatter debe declarar `name`,
+  `type`, `version`, `status`, `purpose` y `tags`. La incorporación es
+  incremental: los recursos sin frontmatter no se exigen.
+- Estados válidos: `status` solo admite `draft`, `experimental`, `stable`,
+  `deprecated` y `archived`.
+- Recursos huérfanos: ningún Markdown sin ser referenciado por otro recurso,
+  salvo el allowlist (README, roadmap, ADRs).
+- Directorios vacíos: deben contener `.gitkeep`.
+- Referencias en prosa: las rutas canónicas (`./`, `../` o dominio) deben
+  resolver a ficheros existentes. Plantillas y ejemplos están exentos por
+  describir artefactos de proyectos externos.
 
 ## Criterios semánticos
 

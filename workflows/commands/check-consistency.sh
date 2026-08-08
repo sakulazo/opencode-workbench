@@ -65,6 +65,20 @@ check_pattern_es() {
   fi
 }
 
+# Reports a check that produces a list of violations (newline-separated in $2).
+report() {
+  local label="$1"
+  local out="$2"
+  if [[ -n "$out" ]]; then
+    FAILURES=$((FAILURES + 1))
+    echo "FAIL: $label"
+    printf '%s' "$out"
+  else
+    PASS=$((PASS + 1))
+    echo "PASS: $label"
+  fi
+}
+
 echo "Consistency check for: $ROOT"
 echo
 
@@ -137,6 +151,159 @@ else
   PASS=$((PASS + 1))
   echo "PASS: Markdown files are not executable"
 fi
+
+# 9. No broken relative links in Markdown files.
+# Resolves every relative target ([](...) and [id]: ...) to a canonical path
+# relative to its referencing file and verifies the target exists.
+# Absolute URLs, mailto, anchors, fragments and root-relative paths (-vel code
+# spans) are ignored; directory links count as existing.
+link_targets() {
+  grep -oE '\]\([^)]+\)|\]:[[:space:]]*[^[:space:]]+' "$1" \
+    | sed -E 's/^\]\((.*)\)$/\1/; s/^]:[[:space:]]+//' \
+    | tr -d '"' \
+    | grep -vE '^(https?|mailto|ftp):' \
+    | grep -vE '^#' \
+    | grep -vE '\.\.\.' \
+    | grep -vE '^$' \
+    || true
+}
+
+link_violations=""
+while IFS= read -r -d '' file; do
+  dir=$(dirname "$file")
+  while IFS= read -r target; do
+    [[ -z "$target" ]] && continue
+    case "$target" in
+      http://*|https://*|mailto:*|ftp://*|'#*'|'/*'|'<*') continue ;;
+    esac
+    target="${target%%#*}"
+    [[ -z "$target" ]] && continue
+    if [[ ! -e "$dir/$target" ]]; then
+      link_violations="${link_violations}${file}: $target"$'\n'
+    fi
+  done < <(link_targets "$file")
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+report "No broken relative links in Markdown" "$link_violations"
+
+# 10. Mandatory frontmatter fields in resources that declare frontmatter.
+metadata_violations=""
+while IFS= read -r -d '' file; do
+  if head -1 "$file" | grep -q '^---'; then
+    for field in name type version status purpose tags; do
+      if ! awk -v f="$field" 'BEGIN{found=0} /^---/{n++} n>=2{exit} $1==f":"{found=1; exit} END{if(!found) exit 1}' "$file"; then
+        metadata_violations="${metadata_violations}${file}: missing '$field'"$'\n'
+      fi
+    done
+  fi
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+report "Resources with frontmatter have mandatory metadata fields (name, type, version, status, purpose, tags)" "$metadata_violations"
+
+# 11. Valid status values in frontmatter (ficha 3: draft, experimental, stable, deprecated, archived).
+status_violations=""
+while IFS= read -r -d '' file; do
+  st=$(awk '/^---$/{n++} n==1 && /^status:/{print $2; exit}' "$file")
+  if [[ -n "$st" ]] && ! echo "$st" | grep -qxE 'draft|experimental|stable|deprecated|archived'; then
+    status_violations="${status_violations}${file}: invalid status '$st'"$'\n'
+  fi
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+report "Resources declare a valid 'status' value" "$status_violations"
+
+# 12. Orphan Markdown files: not linked from any other Markdown resource.
+# A file is referenced if another file links it (by path) or links one of its
+# ancestor directories. Entry points that are never legitimately referenced are
+# explicitly allowlisted (root README, roadmap, ADRs).
+ORPHAN_ALLOWLIST=(
+  "README.md"
+  "docs/roadmap.md"
+  "docs/decisions/"
+)
+# Build the set of canonically-referenced paths (files and directories).
+declare -A referenced_targets
+while IFS= read -r -d '' file; do
+  dir=$(dirname "$file")
+  while IFS= read -r target; do
+    [[ -z "$target" ]] && continue
+    case "$target" in
+      http://*|https://*|mailto:*|ftp://*|'#*'|'<*') continue ;;
+    esac
+    target="${target%%#*}"
+    [[ -z "$target" ]] && continue
+    # Normalize ../ and ./ segments with a string rewrite (canonical enough).
+    abs=$(cd "$dir" && realpath -m -- "$target" 2>/dev/null)
+    [[ -z "$abs" ]] && continue
+    referenced_targets["$abs"]=1
+  done < <(link_targets "$file")
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+
+orphan_violations=""
+while IFS= read -r -d '' file; do
+  rel=${file#"$ROOT"/}
+  skip=0
+  for allow in "${ORPHAN_ALLOWLIST[@]}"; do
+    if [[ "$rel" == "$allow" || "$rel" == "$allow/"* ]]; then
+      skip=1
+      break
+    fi
+  done
+  [[ $skip -eq 1 ]] && continue
+  abs=$(realpath -- "$file")
+  referenced=0
+  if [[ -n "${referenced_targets[$abs]:-}" ]]; then
+    referenced=1
+  fi
+  # Also referenced if any ancestor directory is referenced.
+  if [[ $referenced -eq 0 ]]; then
+    d=$(dirname "$abs")
+    while [[ "$d" != "$ROOT" && "$d" != "/" ]]; do
+      if [[ -n "${referenced_targets[$d]:-}" ]]; then
+        referenced=1
+        break
+      fi
+      d=$(dirname "$d")
+    done
+  fi
+  if [[ $referenced -eq 0 ]]; then
+    orphan_violations="${orphan_violations}${rel}"$'\n'
+  fi
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+report "No orphan Markdown resources (excluding allowlist)" "$orphan_violations"
+
+# 13. No empty directories without a .gitkeep placeholder (Git does not track
+# empty directories).
+empty_dir_violations=""
+while IFS= read -r -d '' dir; do
+  if [[ ! -e "$dir/.gitkeep" ]]; then
+    empty_dir_violations="${empty_dir_violations}${dir#"$ROOT"/}"$'\n'
+  fi
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -type d -empty -print0)
+report "No empty directories without .gitkeep" "$empty_dir_violations"
+
+# 14. No explicit references to non-existent files/assets in project prose.
+# Only canonical repo-relative references (./ or ../ or a domain root) are
+# verified. References inside templates/ and examples/ are exempt: they
+# legitimately describe project artifacts (e.g. src/rate-limiter.js, path/to/file)
+# that do not exist in the Workbench repository.
+missing_ref_violations=""
+while IFS= read -r -d '' file; do
+  dir=$(dirname "$file")
+  # Skip templates and examples: their prose references project files.
+  case "$file" in
+    "$ROOT/templates/"*|"$ROOT/examples/"*|"$ROOT/core/sdd/templates/"*|"$ROOT/core/sdd/examples/"*) continue ;;
+  esac
+  while IFS= read -r ref; do
+    case "$ref" in
+      http://*|https://*|mailto:*|ftp://*|'#*') continue ;;
+    esac
+    ref="${ref%%#*}"
+    case "$ref" in
+      ./*|../*) ;;
+      core/*|technologies/*|workflows/*|docs/*) ;;
+      *) continue ;;
+    esac
+    [[ -e "$dir/$ref" ]] || missing_ref_violations="${missing_ref_violations}${file}: $ref"$'\n'
+  done < <(grep -oE '\`[^ \`]+\`' "$file" | tr -d '\`' || true)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+report "Markdown inline code references resolve to existing files" "$missing_ref_violations"
 
 echo
 echo "Result: $PASS PASS, $FAILURES FAIL"
