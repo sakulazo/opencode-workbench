@@ -130,6 +130,14 @@ nunca ambos a la vez.
 
 ---
 
+## SpecKit o el flujo del Workbench: cuándo usar cada uno
+
+Para decidir cuándo aplicar el estándar y cuándo el flujo propio —según el
+contexto, la portabilidad de los artefactos y el coste de mantenimiento—, ver
+[speckit-vs-workbench.md](speckit-vs-workbench.md).
+
+---
+
 ## Verificación tras los cambios
 
 Ejecuta el check de consistencia desde la raíz del Workbench tras cualquier
