@@ -30,6 +30,15 @@ Ejemplo con el skill SDD:
 cp -r core/sdd <proyecto>/.opencode/skills/sdd/
 ```
 
+Otro skill del repertorio es
+[vps-management](../technologies/vps-management/SKILL.md), con flujos y
+plantillas para administrar servidores VPS (Docker, Nginx, systemd, Certbot,
+backups):
+
+```bash
+cp -r technologies/vps-management <proyecto>/.opencode/skills/vps-management/
+```
+
 El `name` del frontmatter debe coincidir con el nombre del directorio
 (`sdd`). Tras instalarlo, el skill aparece en la lista de skills de las
 sesiones de OpenCode del proyecto y se carga bajo demanda.
@@ -56,6 +65,16 @@ cp workflows/commands/check-consistency.sh <proyecto>/.opencode/commands/
 ### Agents y mcps
 
 - Los agents se copian a `.opencode/agents/` (o `~/.config/opencode/agents/`).
+  El repertorio de agentes es:
+  - [sdd-driver](../workflows/agents/sdd-driver.md) — orquesta SpecKit con el
+    skill `sdd` como criterio de calidad.
+  - [devops-manager](../workflows/agents/devops-manager.md) — orquestador y
+    arquitecto de entornos; delega en `vps-manager` (runtime) e
+    `iac-vps-expert` (IaC).
+  - [iac-vps-expert](../workflows/agents/iac-vps-expert.md) — experto en IaC,
+    Ansible y Docker Compose.
+  - [opencode-expert](../workflows/agents/opencode-expert.md) — experto en la
+    configuración de OpenCode (agentes, skills, comandos).
 - Los mcps se configuran en `opencode.json` del proyecto (bloque `mcp`); el
   dominio `workflows/mcps` del Workbench almacena plantillas y documentación
   de referencia para esas configuraciones.
