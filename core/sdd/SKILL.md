@@ -6,6 +6,7 @@ version: 1.0
 status: stable
 purpose: Guide AI-assisted implementation driven by a versioned specification as the single source of truth, with human approval at every phase.
 tags: [sdd]
+license: MIT
 ---
 
 # Specification-Driven Development (SDD)

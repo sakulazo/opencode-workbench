@@ -6,6 +6,7 @@ version: 1.0
 status: experimental
 purpose: Provide a structured review method and checklists (correctness, security, performance, maintainability, tests) with severity criteria so reviews are consistent and prioritized.
 tags: [code-review, checklist, quality, security, review]
+license: MIT
 ---
 
 # Code Review

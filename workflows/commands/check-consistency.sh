@@ -20,7 +20,14 @@
 
 set -u
 
+if [[ ${BASH_VERSINFO[0]:-0} -lt 4 ]] || ! realpath -m -- / >/dev/null 2>&1; then
+  echo "Se requiere Bash 4+ y GNU coreutils (realpath -m)" >&2
+  exit 2
+fi
+
 ROOT="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+ROOT=$(realpath -m -- "$ROOT")
+ROOT=${ROOT%/}
 PASS=0
 FAILURES=0
 
@@ -52,7 +59,7 @@ check_pattern() {
   if [[ -n "$matches" ]]; then
     FAILURES=$((FAILURES + 1))
     echo "FAIL: $label"
-    echo "$matches"
+    printf '%s\n' "$matches"
   else
     PASS=$((PASS + 1))
     echo "PASS: $label"
@@ -67,7 +74,7 @@ check_pattern_es() {
   if [[ -n "$matches" ]]; then
     FAILURES=$((FAILURES + 1))
     echo "FAIL: $label"
-    echo "$matches"
+    printf '%s\n' "$matches"
   else
     PASS=$((PASS + 1))
     echo "PASS: $label"
@@ -81,11 +88,62 @@ report() {
   if [[ -n "$out" ]]; then
     FAILURES=$((FAILURES + 1))
     echo "FAIL: $label"
-    printf '%s' "$out"
+    printf '%s\n' "$out"
   else
     PASS=$((PASS + 1))
     echo "PASS: $label"
   fi
+}
+
+# Returns 0 if the file declares frontmatter (an opening '---' fence on the
+# first non-blank line plus a closing fence), tolerating a UTF-8 BOM and
+# leading blank lines.
+has_frontmatter() {
+  local file="$1"
+  awk '
+    NR==1{sub(/^\357\273\277/, "")}
+    opened == "" {
+      if ($0 ~ /^[[:space:]]*$/) next
+      if ($0 ~ /^---[[:space:]]*$/) { opened = 1; next }
+      exit 1
+    }
+    $0 ~ /^---[[:space:]]*$/ { n++ }
+    n >= 1 { found = 1; exit }
+    END { if (!found) exit 1 }
+  ' "$file"
+}
+
+# Returns 0 if the file declares a frontmatter field, tolerating spaces
+# around the colon and a UTF-8 BOM.
+frontmatter_has_field() {
+  local file="$1" field="$2"
+  awk -v f="$field" '
+    NR==1{sub(/^\357\273\277/, "")}
+    /^---[[:space:]]*$/{n++}
+    n>=2{exit}
+    n==1 && match($0, "^[[:space:]]*" f "[[:space:]]*:"){found=1; exit}
+    END{if(!found) exit 1}
+  ' "$file"
+}
+
+# Returns the value of a single-line frontmatter field.
+frontmatter_field() {
+  local file="$1" field="$2"
+  awk -v f="$field" '
+    NR==1{sub(/^\357\273\277/, "")}
+    /^---[[:space:]]*$/{n++}
+    n>=2{exit}
+    n==1 && match($0, "^[[:space:]]*" f "[[:space:]]*:"){sub(/^[^:]+:[[:space:]]*/, ""); print; exit}
+  ' "$file"
+}
+
+# Returns each element of a bracket-list frontmatter field (e.g. [a, b]).
+frontmatter_list() {
+  local file="$1" field="$2"
+  local line
+  line=$(frontmatter_field "$file" "$field")
+  [[ -z "$line" ]] && return 0
+  echo "$line" | tr -d '[]' | tr ',' '\n' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | grep -v '^$' || true
 }
 
 echo "Consistency check for: $ROOT"
@@ -130,6 +188,9 @@ check_pattern "Headings Title Case: '## / ### Skills, Agents, Commands, MCPs'" "
 check_pattern "No singular type headings: '## / ### Skill, Agent, Command, MCP'" "^#{2,3} (Skill|Agent|Command|MCP)([[:space:]]*)$"
 
 # 6. Type enumerations must include mcp.
+# Limitation: only lines containing the exact enumeration phrases below are
+# validated; enumerations written with different wording (e.g. "y"/"and", or
+# "mcp" listed on a separate line) are not detected.
 for base in "skill, agent, command" "skills, agents, commands"; do
   enum_violations=$(grep_md "$base" | grep -viE 'mcp')
   if [[ -n "$enum_violations" ]]; then
@@ -169,6 +230,7 @@ fi
 link_targets() {
   grep -oE '\]\([^)]+\)|\]:[[:space:]]*[^[:space:]]+' "$1" \
     | sed -E 's/^\]\((.*)\)$/\1/; s/^]:[[:space:]]+//' \
+    | sed -E 's/[[:space:]]+"[^"]*"$//' \
     | tr -d '"' \
     | grep -vE '^(https?|mailto|ftp):' \
     | grep -vE '^#' \
@@ -197,9 +259,9 @@ report "No broken relative links in Markdown" "$link_violations"
 # 10. Mandatory frontmatter fields in resources that declare frontmatter.
 metadata_violations=""
 while IFS= read -r -d '' file; do
-  if head -1 "$file" | grep -q '^---'; then
+  if has_frontmatter "$file"; then
     for field in name type version status purpose tags; do
-      if ! awk -v f="$field" 'BEGIN{found=0} /^---/{n++} n>=2{exit} $1==f":"{found=1; exit} END{if(!found) exit 1}' "$file"; then
+      if ! frontmatter_has_field "$file" "$field"; then
         metadata_violations="${metadata_violations}${file}: missing '$field'"$'\n'
       fi
     done
@@ -210,7 +272,7 @@ report "Resources with frontmatter have mandatory metadata fields (name, type, v
 # 11. Valid status values in frontmatter (ficha 3: draft, experimental, stable, deprecated, archived).
 status_violations=""
 while IFS= read -r -d '' file; do
-  st=$(awk '/^---$/{n++} n==1 && /^status:/{print $2; exit}' "$file")
+  st=$(frontmatter_field "$file" status | tr -d '"')
   if [[ -n "$st" ]] && ! echo "$st" | grep -qxE 'draft|experimental|stable|deprecated|archived'; then
     status_violations="${status_violations}${file}: invalid status '$st'"$'\n'
   fi
@@ -238,7 +300,7 @@ while IFS= read -r -d '' file; do
     target="${target%%#*}"
     [[ -z "$target" ]] && continue
     # Normalize ../ and ./ segments with a string rewrite (canonical enough).
-    abs=$(cd "$dir" && realpath -m -- "$target" 2>/dev/null)
+    abs=$(realpath -m -- "$dir/$target" 2>/dev/null)
     [[ -z "$abs" ]] && continue
     referenced_targets["$abs"]=1
   done < <(link_targets "$file")
@@ -286,15 +348,15 @@ ip_is_public() {
     [[ "$o" =~ ^[0-9]{1,3}$ ]] || return 1
     (( 10#$o > 255 )) && return 1
   done
-  (( o1 == 0 || o1 == 10 || o1 == 127 )) && return 1                 # this/private/loopback
-  (( o1 == 169 && o2 == 254 )) && return 1                            # link-local
-  (( o1 == 172 && o2 >= 16 && o2 <= 31 )) && return 1                 # RFC 1918
-  (( o1 == 192 && o2 == 168 )) && return 1                            # RFC 1918
-  (( o1 == 100 && o2 >= 64 && o2 <= 127 )) && return 1                # CGNAT
-  (( o1 == 192 && o2 == 0 && (o3 == 0 || o3 == 2) )) && return 1      # IETF / TEST-NET-1
-  (( o1 == 198 && o2 == 51 && o3 == 100 )) && return 1                # TEST-NET-2
-  (( o1 == 203 && o2 == 0 && o3 == 113 )) && return 1                 # TEST-NET-3
-  (( o1 >= 224 )) && return 1                                         # multicast/reserved/broadcast
+  (( 10#$o1 == 0 || 10#$o1 == 10 || 10#$o1 == 127 )) && return 1      # this/private/loopback
+  (( 10#$o1 == 169 && 10#$o2 == 254 )) && return 1                    # link-local
+  (( 10#$o1 == 172 && 10#$o2 >= 16 && 10#$o2 <= 31 )) && return 1     # RFC 1918
+  (( 10#$o1 == 192 && 10#$o2 == 168 )) && return 1                    # RFC 1918
+  (( 10#$o1 == 100 && 10#$o2 >= 64 && 10#$o2 <= 127 )) && return 1    # CGNAT
+  (( 10#$o1 == 192 && 10#$o2 == 0 && (10#$o3 == 0 || 10#$o3 == 2) )) && return 1  # IETF / TEST-NET-1
+  (( 10#$o1 == 198 && 10#$o2 == 51 && 10#$o3 == 100 )) && return 1    # TEST-NET-2
+  (( 10#$o1 == 203 && 10#$o2 == 0 && 10#$o3 == 113 )) && return 1     # TEST-NET-3
+  (( 10#$o1 >= 224 )) && return 1                                     # multicast/reserved/broadcast
   return 0
 }
 
@@ -317,9 +379,17 @@ secret_violations=""
 if [[ -f "$SECRETS_FILE" ]]; then
   while IFS= read -r token; do
     [[ -z "$token" || "$token" == \#* ]] && continue
+    # Tokens shorter than 6 chars produce substring false positives in prose.
+    if [[ ${#token} -lt 6 ]]; then
+      echo "WARN: token demasiado corto (${#token} chars < 6), se omite" >&2
+      continue
+    fi
     matches=$(grep -rInF --exclude-dir='.git' --exclude-dir='node_modules' --exclude='.operator-secrets' -- "$token" "$ROOT" 2>/dev/null || true)
     if [[ -n "$matches" ]]; then
-      secret_violations="${secret_violations}token: $token"$'\n'"$matches"$'\n'
+      # Mask the exact token value within the matched lines (grep -F matched it
+      # literally, so the substitution must be literal too).
+      masked_matches=${matches//"$token"/***}
+      secret_violations="${secret_violations}token: ${token:0:2}… (${#token} chars)"$'\n'"$masked_matches"$'\n'
     fi
   done < "$SECRETS_FILE"
   report "No operator tokens leaked in the repository" "$secret_violations"
@@ -335,7 +405,7 @@ while IFS= read -r -d '' dir; do
   if [[ ! -e "$dir/.gitkeep" ]]; then
     empty_dir_violations="${empty_dir_violations}${dir#"$ROOT"/}"$'\n'
   fi
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -type d -empty -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -type d -empty -print0)
 report "No empty directories without .gitkeep" "$empty_dir_violations"
 
 # 14. No explicit references to non-existent files/assets in project prose.
@@ -370,26 +440,11 @@ report "Markdown inline code references resolve to existing files" "$missing_ref
 # defined in docs/organization.md: role (orchestrator/process/specialist),
 # mode coherence, delegation (delegates_to) and knowledge (skills).
 
-# Returns the value of a single-line frontmatter field.
-frontmatter_field() {
-  local file="$1" field="$2"
-  awk -v f="$field" '/^---$/{n++} n==1 && $1==f":"{sub(/^[^:]+:[[:space:]]*/, ""); print; exit}' "$file"
-}
-
-# Returns each element of a bracket-list frontmatter field (e.g. [a, b]).
-frontmatter_list() {
-  local file="$1" field="$2"
-  local line
-  line=$(frontmatter_field "$file" "$field")
-  [[ -z "$line" ]] && return 0
-  echo "$line" | tr -d '[]' | tr ',' '\n' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | grep -v '^$' || true
-}
-
 # 17. Agents declare full frontmatter (common metadata + mode, role, description).
 agent_meta_violations=""
 while IFS= read -r -d '' file; do
   for field in name type version status purpose tags mode role description; do
-    if ! awk -v f="$field" 'BEGIN{found=0} /^---/{n++} n>=2{exit} $1==f":"{found=1; exit} END{if(!found) exit 1}' "$file"; then
+    if ! frontmatter_has_field "$file" "$field"; then
       agent_meta_violations="${agent_meta_violations}${file}: missing '$field'"$'\n'
     fi
   done
@@ -421,7 +476,7 @@ name_violations=""
 while IFS= read -r -d '' file; do
   base=$(basename "$file")
   n=$(frontmatter_field "$file" name)
-  if ! echo "$base" | grep -qxE '[a-z0-9-]+\.md'; then
+  if ! echo "$base" | grep -qxE '[a-z0-9]+(-[a-z0-9]+)*\.md'; then
     name_violations="${name_violations}${file}: filename not kebab-case"$'\n'
   fi
   if [[ -n "$n" && "$n" != "${base%.md}" ]]; then

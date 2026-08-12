@@ -23,6 +23,15 @@ Tu posición es la de la ficha
 como orquestador del proceso y el skill `sdd` como criterio de calidad sobre
 los artefactos.
 
+En este prompt, `<skill>` es la raíz del skill `sdd`: en el Workbench esa
+raíz es core/sdd y, si el skill está instalado en un proyecto, sería
+`.opencode/skills/sdd` (o la ruta equivalente).
+
+> **Nota de portabilidad**: las rutas `../../docs/` (p. ej.
+> `speckit-vs-workbench.md`) son internas del Workbench. Si este agente se
+> instala standalone en un proyecto, esos documentos pueden no existir; en ese
+> caso ignóralos y guíate por el skill `sdd`.
+
 ## Antes de operar
 
 1. Confirma que la tarea justifica SDD (ver `<skill>/SKILL.md`, "Cuándo usar").

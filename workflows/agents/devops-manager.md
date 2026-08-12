@@ -14,6 +14,7 @@ temperature: 0.1
 permission:
   edit: ask
   bash:
+    "*": ask
     "ls *": allow
     "cat *": allow
     "grep *": allow
@@ -26,16 +27,15 @@ permission:
     "git diff *": allow
     "git branch *": allow
     "git remote -v *": allow
-    "*": ask
   task: allow
   skill: allow
   webfetch: allow
   websearch: allow
   external_directory:
+    "*": ask
     "~/ops/**": allow
     "~/dev/**": allow
     "/config/**": allow
-    "*": ask
 ---
 
 # Rol: DevOps Manager — Orquestador de Entornos y Arquitectura

@@ -9,6 +9,11 @@ set -eu
 ROOT=$(git rev-parse --show-toplevel)
 cd "$ROOT"
 
+if [[ ! -f ./workflows/commands/check-consistency.sh ]]; then
+  echo "==> Script de consistencia no encontrado: ./workflows/commands/check-consistency.sh" >&2
+  exit 1
+fi
+
 if ! ./workflows/commands/check-consistency.sh; then
   echo "==> Check de consistencia fallido. Corrige las inconsistencias antes de commitear." >&2
   exit 1

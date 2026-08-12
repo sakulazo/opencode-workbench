@@ -14,6 +14,7 @@ temperature: 0.1
 permission:
   edit: deny
   bash:
+    "*": ask
     "git diff *": allow
     "git show *": allow
     "git log *": allow
@@ -32,7 +33,6 @@ permission:
     "yarn test *": ask
     "npm run build *": ask
     "npm run lint *": ask
-    "*": ask
   skill: allow
   webfetch: allow
   websearch: allow

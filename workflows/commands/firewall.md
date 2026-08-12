@@ -37,7 +37,7 @@ sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 
 # Abrir puerto especifico
-sudo ufw allow $1/tcp
+sudo ufw allow $2/tcp
 
 # Bloquear IP
 sudo ufw deny from <ip>

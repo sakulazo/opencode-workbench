@@ -114,9 +114,35 @@ está instalado, ya que fijan `agent: vps-manager` para enrutar la ejecución.
 infraestructura/entornos). `vps-manager` (runtime) e `iac-vps-expert`
 (declarativo) se delimitan en sus prompts con una sección "Frontera con ...".
 
-- Los mcps se configuran en `opencode.json` del proyecto (bloque `mcp`); el
-  dominio `workflows/mcps` del Workbench almacena plantillas y documentación
-  de referencia para esas configuraciones.
+- Los MCPs se configuran en `opencode.json` del proyecto, en el bloque `mcp`;
+  **no se instalan por archivos**. El directorio workflows/mcps/ del Workbench
+  es solo una **convención organizativa**: almacena plantillas y documentación
+  de referencia, pero OpenCode no lo escanea. Todo `opencode.json` debe
+  declarar el esquema para que el editor valide los campos mientras escribes:
+
+  ```json
+  {
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+      "github": {
+        "type": "remote",
+        "url": "https://api.githubcopilot.com/mcp/",
+        "enabled": true,
+        "headers": { "Authorization": "Bearer {env:GITHUB_TOKEN}" }
+      },
+      "playwright": {
+        "type": "local",
+        "command": ["npx", "-y", "@playwright/mcp"],
+        "enabled": true
+      }
+    }
+  }
+  ```
+
+**Metadata de gobernanza**: los campos de frontmatter `type`, `version`,
+`status`, `purpose` y `tags` (y en los agentes `role`, `delegates_to` y
+`skills`) son metadata de gobernanza del Workbench, inertes para OpenCode: los
+agentes los enrutan a `options` y los commands los descartan.
 
 ### Entorno del operador (instalación vía OPENCODE_CONFIG_DIR)
 

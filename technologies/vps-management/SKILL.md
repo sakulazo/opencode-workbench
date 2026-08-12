@@ -6,6 +6,7 @@ version: 1.0
 status: stable
 purpose: Provide workflows and best practices for managing Virtual Private Servers and deploying applications.
 tags: [vps, linux, docker, nginx, systemd, certbot, ufw, server]
+license: MIT
 ---
 
 # VPS Management Skill
