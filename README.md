@@ -54,7 +54,7 @@ pre-commit en `.githooks/pre-commit` (activable con
 `git config core.hooksPath .githooks`) la lanza en cada commit, y el workflow
 `.github/workflows/consistency.yml` la lanza en cada push y pull request.
 
-El detalle de cada dominio y de los tipos de recursos se documenta en [docs/architecture.md](docs/architecture.md).
+El detalle de cada dominio y de los tipos de recursos se documenta en [docs/architecture.md](docs/architecture.md). La jerarquía de agentes (orchestrator, process, specialist) y sus reglas de delegación se definen en [docs/organization.md](docs/organization.md).
 
 ---
 

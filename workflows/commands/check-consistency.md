@@ -1,8 +1,8 @@
 ---
 name: check-consistency
-description: Repository consistency check for OpenCode Workbench. Runs the mechanical checks (workflows/commands/check-consistency.sh) and reviews the semantic criteria (language per resource type, conceptual organization, SDD process coherence, links) against docs/conventions.md and docs/architecture.md. Use after any change before closing the task.
+description: Repository consistency check for OpenCode Workbench. Runs the mechanical checks (workflows/commands/check-consistency.sh) and reviews the semantic criteria (language per resource type, conceptual organization, SDD process coherence, agent org chart, links) against docs/conventions.md, docs/architecture.md and docs/organization.md. Use after any change before closing the task.
 type: command
-version: 1.2
+version: 1.3
 status: stable
 purpose: Verify that the repository complies with the Workbench consistency and governance conventions after a change.
 tags: [governance, consistency]
@@ -74,7 +74,8 @@ del propio Workbench, y se mantiene junto al command que la utiliza.
 
 ## Comprobaciones mecánicas
 
-Cubiertas por `check-consistency.sh` (en esta misma carpeta):
+Cubiertas por `check-consistency.sh` (en esta misma carpeta). El scan ignora
+`.git` y `node_modules` (contenido no versionado del repositorio):
 
 - Terminología: uso consistente de "Specification-Driven Development".
 - Terminología SDD: "puerta pre-implementación" y "validación de conformidad"
@@ -123,6 +124,22 @@ repositorio:
   comprueba que ninguno aparezca en el repositorio. Si el fichero no existe
   (clones públicos, CI), el check se omite sin fallar.
 
+### Gobernanza del organigrama de agentes (ADR-0005)
+
+Desde ADR-0005 el script verifica también las reglas del organigrama definidas
+en [organization.md](../../docs/organization.md):
+
+- Frontmatter completo de agente: todo recurso en `workflows/agents/` declara
+  `name`, `type`, `version`, `status`, `purpose`, `tags`, `mode`, `role` y
+  `description`, y `type: agent`.
+- `mode` válido: solo `primary`, `subagent` o `all`.
+- `name` coincide con el nombre de archivo (kebab-case).
+- `role` válido y coherente con `mode`: `orchestrator` → primary/all,
+  `process` → all, `specialist` → subagent/all.
+- `delegates_to` solo a agentes existentes en `workflows/agents/` o a los
+  built-ins de OpenCode (`build`, `plan`, `general`, `explore`).
+- `skills` solo a `SKILL.md` existentes en `core/` o `technologies/`.
+
 ## Criterios semánticos
 
 ### A. Idioma por tipo de recurso
@@ -158,6 +175,16 @@ repositorio:
 - [ ] Las enumeraciones de tipos incluyen siempre los cuatro tipos
       (skills, agents, commands, mcps).
 
+### E. Organigrama de agentes
+
+- [ ] Cada agente está documentado en docs/organization.md (matriz de
+      delegación) y en el repertorio de usage.md.
+- [ ] La matriz de delegación de organization.md es coherente con el
+      frontmatter (`role`, `delegates_to`) de cada agente.
+- [ ] Todo agente usa skills existentes y delega solo en agentes existentes.
+- [ ] Los valores de `role` (orchestrator, process, specialist) y `mode`
+      siguen la taxonomía documentada en organization.md.
+
 ## Resumen
 
 | Sección | PASS | FAIL | N/A |
@@ -167,6 +194,7 @@ repositorio:
 | B. Organización |  |  |  |
 | C. SDD |  |  |  |
 | D. Enlaces |  |  |  |
+| E. Organigrama |  |  |  |
 
 **Decisión**: APROBADO / REQUIERE CAMBIOS
 

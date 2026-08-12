@@ -41,6 +41,7 @@ Workbench:
 | 13 | Sistema de etiquetas | Localizar recursos relacionados por tema. | PARCIAL |
 | 14 | Reglas de gobernanza | Evitar el crecimiento descontrolado. | ADOPTADA |
 | 15 | Mantenimiento de la filosofía actual | Construir sobre la estructura existente. | RESTRICCIÓN |
+| 16 | Gobernanza del organigrama de agentes | Definir niveles de agentes y validar mecánicamente su incorporación. | ADOPTADA |
 
 ## Detalle
 
@@ -285,6 +286,23 @@ No es una acción, sino la restricción que condiciona todas las demás: las
 mejoras se construyen sobre la estructura existente, sin reemplazarla. La
 organización conceptual en cuatro dominios (core, technologies, workflows,
 docs) se mantiene. Ver ADR 0001.
+
+### 16. Gobernanza del organigrama de agentes — ADOPTADA
+
+**Intención**: definir la jerarquía de agentes del Workbench (orchestrator,
+process, specialist + capa de conocimiento) y validar mecánicamente la
+incorporación de un agente o subagente nuevo, evitando que el repertorio crezca
+sin estructura.
+
+Se adopta el modelo de roles documentado en
+[organization.md](organization.md) (ADR-0005): tres niveles de responsabilidad
+más la capa de skills como conocimiento. Los agentes declaran `mode`, `role` y
+`description` en su frontmatter, y opcionalmente `delegates_to` y `skills`; la
+validación (`check-consistency.sh`, checks 17 a 22) comprueba su coherencia.
+Los agentes existentes se retrolavan en la adopción para sentar precedente.
+
+Relacionado: ADR-0005; fichas 1, 3, 6, 8, 9 y 14. Prepara las fichas 7 y 12
+(grafo de dependencias e índices para IA) al aportar la metadata de relaciones.
 
 ## Cómo usar este documento
 

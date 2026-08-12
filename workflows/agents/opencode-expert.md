@@ -7,6 +7,7 @@ version: 1.0
 status: stable
 purpose: Help developers create and configure opencode agents, commands, skills and opencode.jsonc to optimize their AI-assisted workflow.
 tags: [opencode, config, agents, skills]
+role: specialist
 model: opencode/big-pickle
 temperature: 0.2
 permission:

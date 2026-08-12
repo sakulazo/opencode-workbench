@@ -78,21 +78,54 @@ está instalado, ya que fijan `agent: vps-manager` para enrutar la ejecución.
 ### Agents y mcps
 
 - Los agents se copian a `.opencode/agents/` (o `~/.config/opencode/agents/`).
-  El repertorio de agentes es:
-  - [sdd-driver](../workflows/agents/sdd-driver.md) — orquesta SpecKit con el
-    skill `sdd` como criterio de calidad.
-  - [devops-manager](../workflows/agents/devops-manager.md) — orquestador y
-    arquitecto de entornos; delega en `vps-manager` (runtime) e
-    `iac-vps-expert` (IaC).
-  - [vps-manager](../workflows/agents/vps-manager.md) — administración de VPS y
-    despliegues (Docker, systemd, SSL, logs, backups) a través de SSH.
-  - [iac-vps-expert](../workflows/agents/iac-vps-expert.md) — experto en IaC,
-    Ansible y Docker Compose.
-  - [opencode-expert](../workflows/agents/opencode-expert.md) — experto en la
-    configuración de OpenCode (agentes, skills, comandos).
+  La jerarquía de niveles (`orchestrator`, `process`, `specialist`), las reglas
+  de delegación y el checklist de incorporación se definen en
+  [organization.md](organization.md) (ADR-0005). El repertorio de agentes por
+  nivel es:
+  - **Orquestadores** (`role: orchestrator`):
+    - [devops-manager](../workflows/agents/devops-manager.md) — orquestador y
+      arquitecto de entornos; delega en `vps-manager` (runtime) e
+      `iac-vps-expert` (IaC).
+  - **Procesos** (`role: process`):
+    - [sdd-driver](../workflows/agents/sdd-driver.md) — orquesta SpecKit con el
+      skill `sdd` como criterio de calidad.
+  - **Especialistas** (`role: specialist`):
+    - [vps-manager](../workflows/agents/vps-manager.md) — administración de VPS
+      y despliegues (Docker, systemd, SSL, logs, backups) a través de SSH.
+    - [iac-vps-expert](../workflows/agents/iac-vps-expert.md) — experto en IaC,
+      Ansible y Docker Compose.
+    - [opencode-expert](../workflows/agents/opencode-expert.md) — experto en la
+      configuración de OpenCode (agentes, skills, comandos).
+
+**Fronteras entre agentes**: `devops-manager` no solapa con el built-in `plan`
+(`plan` planifica tareas genéricas; `devops-manager` orquesta solo
+infraestructura/entornos). `vps-manager` (runtime) e `iac-vps-expert`
+(declarativo) se delimitan en sus prompts con una sección "Frontera con ...".
+
 - Los mcps se configuran en `opencode.json` del proyecto (bloque `mcp`); el
   dominio `workflows/mcps` del Workbench almacena plantillas y documentación
   de referencia para esas configuraciones.
+
+### Entorno del operador (instalación vía OPENCODE_CONFIG_DIR)
+
+El entorno del operador (contenedor `opencode` de `ops/ai`) carga los recursos
+del Workbench apuntando `OPENCODE_CONFIG_DIR` a este directorio:
+
+```bash
+export OPENCODE_CONFIG_DIR=/home/sakul/dev/opencode-workbench/workflows
+```
+
+OpenCode escanea ese directorio como un `.opencode` estándar: busca `agents/`,
+`commands/`, `modes/` y `plugins/` (ver la documentación de OpenCode). La
+variable se define en `compose.yaml` del operador. Si cambias esa ruta o el
+volumen, los agentes y commands dejan de cargarse sin aviso.
+
+> **Usa un solo mecanismo**: o `OPENCODE_CONFIG_DIR` (como aquí) o la copia
+> global a `~/.config/opencode/agents/`. Usar ambos con los mismos nombres
+> registraría agentes duplicados. Si prefieres la instalación global, copia
+> `workflows/agents/*.md` a `~/.config/opencode/agents/` y
+> `workflows/commands/*.md` a `~/.config/opencode/commands/`, y elimina
+> `OPENCODE_CONFIG_DIR` del entorno.
 
 ---
 

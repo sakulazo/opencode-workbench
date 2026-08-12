@@ -113,6 +113,11 @@ Un agent puede utilizar múltiples skills, commands y mcps durante una misma tar
 - Tomar decisiones.
 - Delegar tareas.
 
+La jerarquía de agentes (orchestrator, process, specialist), las reglas de
+delegación y el checklist de incorporación de un agente nuevo se definen en
+[organization.md](organization.md) (ADR-0005). Los agents, commands y mcps del
+repertorio se listan en [usage.md](usage.md).
+
 ---
 
 ### Commands

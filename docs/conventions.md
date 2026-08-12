@@ -80,6 +80,40 @@ Se evitarán:
 
 ---
 
+## Agentes y subagentes
+
+Los agentes del Workbench viven en `workflows/agents/` y responden a la
+jerarquía de niveles definida en [organization.md](organization.md)
+(ADR-0005): `orchestrator`, `process` y `specialist`, más la capa de
+conocimiento (skills) que cargan.
+
+### Frontmatter
+
+Además de la metadata común (ficha 1 de la hoja de ruta), todo agente declara:
+
+- `mode` (obligatorio): `primary`, `subagent` o `all`.
+- `role` (obligatorio): `orchestrator`, `process` o `specialist`.
+- `description` (obligatorio): en inglés, con palabras clave de activación.
+- `delegates_to` (opcional): agentes a los que delega; deben existir.
+- `skills` (opcional): skills de `core/` o `technologies/` que carga.
+
+### Reglas
+
+- `mode` coherente con `role`: `orchestrator` → `primary`/`all`; `process` →
+  `all`; `specialist` → `subagent`/`all`.
+- `name` coincide con el nombre de archivo (kebab-case, en inglés).
+- No se almacena `used_by` (ficha 1): la relación inversa se deriva, no se
+  mantiene a mano.
+- Antes de crear un agente, evaluar si basta un skill: si solo aporta
+  conocimiento, no es un agente.
+- Todo agente debe documentarse en `docs/organization.md` y `docs/usage.md`.
+
+La validación mecánica de estas reglas forma parte de `check-consistency.sh`
+(checks 17 a 22); la plantilla de partida está en
+[workflows/templates/agent.md](../workflows/templates/agent.md).
+
+---
+
 ## Diseño de recursos
 
 Todo recurso debería ser:

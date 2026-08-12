@@ -7,6 +7,9 @@ version: 1.0
 status: experimental
 purpose: Run the full SDD workflow combining SpecKit (orchestrator) with the Workbench sdd skill (validation and checklists) as quality gates, keeping a single source of truth.
 tags: [sdd, speckit, workflow]
+role: process
+skills: [sdd]
+model: opencode/big-pickle
 ---
 
 # sdd-driver

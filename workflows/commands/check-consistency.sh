@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Consistency checker for OpenCode Workbench.
 #
-# Runs the deterministic (mechanical) checks defined by docs/conventions.md.
+# Runs the deterministic (mechanical) checks defined by docs/conventions.md
+# (and the agent org-chart rules of docs/organization.md, ADR-0005).
 # Semantic checks (language per resource type, SDD process coherence, links,
 # conceptual organization) are documented in
 # workflows/commands/check-consistency.md and require human/AI review.
@@ -10,6 +11,9 @@
 #   ./workflows/commands/check-consistency.sh [repo-root]
 #
 # Exit code 0: all checks pass. 1: at least one check failed.
+#
+# The scan ignores .git and node_modules (content not versioned in the
+# repository, so it must not affect the consistency result).
 #
 # Requirements: Bash 4+ and GNU coreutils (realpath -m, grep --exclude-dir,
 # find -print0). Not portable to macOS/BSD without GNU coreutils installed.
@@ -24,6 +28,7 @@ FAILURES=0
 # exact terms these checks detect (e.g. "Test data").
 grep_md() {
   grep -rInE --include='*.md' --exclude-dir='.git' \
+    --exclude-dir='node_modules' \
     --exclude='check-consistency.md' \
     "$1" "$ROOT" 2>/dev/null || true
 }
@@ -33,6 +38,7 @@ grep_md() {
 # flag when they appear in Spanish prose (e.g. "edge cases").
 grep_md_es() {
   grep -rInE --include='*.md' --exclude-dir='.git' \
+    --exclude-dir='node_modules' \
     --exclude='check-consistency.md' \
     --exclude-dir='templates' --exclude-dir='examples' \
     "$1" "$ROOT" 2>/dev/null || true
@@ -145,7 +151,7 @@ while IFS= read -r -d '' file; do
   if [[ -x "$file" ]]; then
     exec_violations="${exec_violations}${file}"$'\n'
   fi
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -name '*.md' -type f -print0)
 if [[ -n "$exec_violations" ]]; then
   FAILURES=$((FAILURES + 1))
   echo "FAIL: Markdown files must not be executable"
@@ -185,7 +191,7 @@ while IFS= read -r -d '' file; do
       link_violations="${link_violations}${file}: $target"$'\n'
     fi
   done < <(link_targets "$file")
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -name '*.md' -type f -print0)
 report "No broken relative links in Markdown" "$link_violations"
 
 # 10. Mandatory frontmatter fields in resources that declare frontmatter.
@@ -198,7 +204,7 @@ while IFS= read -r -d '' file; do
       fi
     done
   fi
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -name '*.md' -type f -print0)
 report "Resources with frontmatter have mandatory metadata fields (name, type, version, status, purpose, tags)" "$metadata_violations"
 
 # 11. Valid status values in frontmatter (ficha 3: draft, experimental, stable, deprecated, archived).
@@ -208,7 +214,7 @@ while IFS= read -r -d '' file; do
   if [[ -n "$st" ]] && ! echo "$st" | grep -qxE 'draft|experimental|stable|deprecated|archived'; then
     status_violations="${status_violations}${file}: invalid status '$st'"$'\n'
   fi
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -name '*.md' -type f -print0)
 report "Resources declare a valid 'status' value" "$status_violations"
 
 # 12. Orphan Markdown files: not linked from any other Markdown resource.
@@ -236,7 +242,7 @@ while IFS= read -r -d '' file; do
     [[ -z "$abs" ]] && continue
     referenced_targets["$abs"]=1
   done < <(link_targets "$file")
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -name '*.md' -type f -print0)
 
 orphan_violations=""
 while IFS= read -r -d '' file; do
@@ -268,7 +274,7 @@ while IFS= read -r -d '' file; do
   if [[ $referenced -eq 0 ]]; then
     orphan_violations="${orphan_violations}${rel}"$'\n'
   fi
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -name '*.md' -type f -print0)
 report "No orphan Markdown resources (excluding allowlist)" "$orphan_violations"
 
 # 15. No public IPv4 addresses in Markdown (potential operator infrastructure
@@ -301,7 +307,7 @@ while IFS= read -r -d '' file; do
       public_ip_violations="${public_ip_violations}${file}: $ip"$'\n'
     fi
   done < <(grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' "$file" 2>/dev/null || true)
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -name '*.md' -type f -print0)
 report "No public IPv4 addresses in Markdown" "$public_ip_violations"
 
 # 16. Operator-specific tokens/IPs/aliases must not appear (leak protection).
@@ -311,7 +317,7 @@ secret_violations=""
 if [[ -f "$SECRETS_FILE" ]]; then
   while IFS= read -r token; do
     [[ -z "$token" || "$token" == \#* ]] && continue
-    matches=$(grep -rInF --exclude-dir='.git' --exclude='.operator-secrets' -- "$token" "$ROOT" 2>/dev/null || true)
+    matches=$(grep -rInF --exclude-dir='.git' --exclude-dir='node_modules' --exclude='.operator-secrets' -- "$token" "$ROOT" 2>/dev/null || true)
     if [[ -n "$matches" ]]; then
       secret_violations="${secret_violations}token: $token"$'\n'"$matches"$'\n'
     fi
@@ -356,8 +362,113 @@ while IFS= read -r -d '' file; do
     esac
     [[ -e "$dir/$ref" ]] || missing_ref_violations="${missing_ref_violations}${file}: $ref"$'\n'
   done < <(grep -oE '\`[^ \`]+\`' "$file" | tr -d '\`' || true)
-done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -path '*/node_modules' -prune -o -name '*.md' -type f -print0)
 report "Markdown inline code references resolve to existing files" "$missing_ref_violations"
+
+# --- Agent org chart governance (ADR-0005): checks 17-22 -------------------
+# Applies to resources in workflows/agents/. Implements the org-chart model
+# defined in docs/organization.md: role (orchestrator/process/specialist),
+# mode coherence, delegation (delegates_to) and knowledge (skills).
+
+# Returns the value of a single-line frontmatter field.
+frontmatter_field() {
+  local file="$1" field="$2"
+  awk -v f="$field" '/^---$/{n++} n==1 && $1==f":"{sub(/^[^:]+:[[:space:]]*/, ""); print; exit}' "$file"
+}
+
+# Returns each element of a bracket-list frontmatter field (e.g. [a, b]).
+frontmatter_list() {
+  local file="$1" field="$2"
+  local line
+  line=$(frontmatter_field "$file" "$field")
+  [[ -z "$line" ]] && return 0
+  echo "$line" | tr -d '[]' | tr ',' '\n' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | grep -v '^$' || true
+}
+
+# 17. Agents declare full frontmatter (common metadata + mode, role, description).
+agent_meta_violations=""
+while IFS= read -r -d '' file; do
+  for field in name type version status purpose tags mode role description; do
+    if ! awk -v f="$field" 'BEGIN{found=0} /^---/{n++} n>=2{exit} $1==f":"{found=1; exit} END{if(!found) exit 1}' "$file"; then
+      agent_meta_violations="${agent_meta_violations}${file}: missing '$field'"$'\n'
+    fi
+  done
+done < <(find "$ROOT/workflows/agents" -name '*.md' -type f -print0 2>/dev/null)
+report "Agents declare full frontmatter (name, type, version, status, purpose, tags, mode, role, description)" "$agent_meta_violations"
+
+# 17b. Agents declare type: agent.
+agent_type_violations=""
+while IFS= read -r -d '' file; do
+  t=$(frontmatter_field "$file" type)
+  if [[ -n "$t" && "$t" != "agent" ]]; then
+    agent_type_violations="${agent_type_violations}${file}: type '$t' (expected 'agent')"$'\n'
+  fi
+done < <(find "$ROOT/workflows/agents" -name '*.md' -type f -print0 2>/dev/null)
+report "Agents declare type: agent" "$agent_type_violations"
+
+# 18. Agents declare a valid mode (primary, subagent, all).
+mode_violations=""
+while IFS= read -r -d '' file; do
+  m=$(frontmatter_field "$file" mode)
+  if [[ -n "$m" ]] && ! echo "$m" | grep -qxE 'primary|subagent|all'; then
+    mode_violations="${mode_violations}${file}: invalid mode '$m'"$'\n'
+  fi
+done < <(find "$ROOT/workflows/agents" -name '*.md' -type f -print0 2>/dev/null)
+report "Agents declare a valid 'mode' (primary, subagent, all)" "$mode_violations"
+
+# 19. Agent name matches the kebab-case filename.
+name_violations=""
+while IFS= read -r -d '' file; do
+  base=$(basename "$file")
+  n=$(frontmatter_field "$file" name)
+  if ! echo "$base" | grep -qxE '[a-z0-9-]+\.md'; then
+    name_violations="${name_violations}${file}: filename not kebab-case"$'\n'
+  fi
+  if [[ -n "$n" && "$n" != "${base%.md}" ]]; then
+    name_violations="${name_violations}${file}: name '$n' != filename"$'\n'
+  fi
+done < <(find "$ROOT/workflows/agents" -name '*.md' -type f -print0 2>/dev/null)
+report "Agent 'name' matches the kebab-case filename" "$name_violations"
+
+# 20. Agents declare a valid role coherent with mode.
+role_violations=""
+while IFS= read -r -d '' file; do
+  r=$(frontmatter_field "$file" role)
+  m=$(frontmatter_field "$file" mode)
+  if [[ -n "$r" ]] && ! echo "$r" | grep -qxE 'orchestrator|process|specialist'; then
+    role_violations="${role_violations}${file}: invalid role '$r'"$'\n'
+  fi
+  case "$r" in
+    orchestrator) [[ "$m" == "primary" || "$m" == "all" ]] || role_violations="${role_violations}${file}: role 'orchestrator' requires mode primary/all (found '$m')"$'\n' ;;
+    process) [[ "$m" == "all" ]] || role_violations="${role_violations}${file}: role 'process' requires mode all (found '$m')"$'\n' ;;
+    specialist) [[ "$m" == "subagent" || "$m" == "all" ]] || role_violations="${role_violations}${file}: role 'specialist' requires mode subagent/all (found '$m')"$'\n' ;;
+  esac
+done < <(find "$ROOT/workflows/agents" -name '*.md' -type f -print0 2>/dev/null)
+report "Agents declare a valid 'role' coherent with 'mode'" "$role_violations"
+
+# 21. Agent delegation references existing agents (or opencode built-ins).
+delegation_violations=""
+while IFS= read -r -d '' file; do
+  while IFS= read -r target; do
+    [[ -z "$target" ]] && continue
+    if [[ ! -f "$ROOT/workflows/agents/$target.md" ]] && ! echo "$target" | grep -qxE 'build|plan|general|explore'; then
+      delegation_violations="${delegation_violations}${file}: delegates_to '$target' not found"$'\n'
+    fi
+  done < <(frontmatter_list "$file" delegates_to)
+done < <(find "$ROOT/workflows/agents" -name '*.md' -type f -print0 2>/dev/null)
+report "Agent 'delegates_to' references existing agents" "$delegation_violations"
+
+# 22. Agent skills reference an existing SKILL.md in core/ or technologies/.
+skill_violations=""
+while IFS= read -r -d '' file; do
+  while IFS= read -r s; do
+    [[ -z "$s" ]] && continue
+    if [[ ! -f "$ROOT/core/$s/SKILL.md" && ! -f "$ROOT/technologies/$s/SKILL.md" ]]; then
+      skill_violations="${skill_violations}${file}: skill '$s' not found (core/ or technologies/)"$'\n'
+    fi
+  done < <(frontmatter_list "$file" skills)
+done < <(find "$ROOT/workflows/agents" -name '*.md' -type f -print0 2>/dev/null)
+report "Agent 'skills' references an existing SKILL.md (core/ or technologies/)" "$skill_violations"
 
 echo
 echo "Result: $PASS PASS, $FAILURES FAIL"
