@@ -62,6 +62,19 @@ cp workflows/commands/check-consistency.md <proyecto>/.opencode/commands/
 cp workflows/commands/check-consistency.sh <proyecto>/.opencode/commands/
 ```
 
+El repertorio de commands de administración de VPS es:
+
+- [backup](../workflows/commands/backup.md) — backups de bases de datos, archivos o configuración.
+- [deploy](../workflows/commands/deploy.md) — despliegue de una aplicación (clonado, compose, Nginx, SSL).
+- [docker](../workflows/commands/docker.md) — operaciones Docker (listar, logs, lifecycle, limpieza).
+- [firewall](../workflows/commands/firewall.md) — gestión del firewall UFW.
+- [logs](../workflows/commands/logs.md) — monitoreo de logs (sistema, Nginx, Docker, aplicaciones).
+- [ssl](../workflows/commands/ssl.md) — gestión de certificados SSL/TLS con Certbot.
+- [vps-status](../workflows/commands/vps-status.md) — reporte completo del estado del servidor.
+
+Estos commands asumen que el agente [vps-manager](../workflows/agents/vps-manager.md)
+está instalado, ya que fijan `agent: vps-manager` para enrutar la ejecución.
+
 ### Agents y mcps
 
 - Los agents se copian a `.opencode/agents/` (o `~/.config/opencode/agents/`).
@@ -71,6 +84,8 @@ cp workflows/commands/check-consistency.sh <proyecto>/.opencode/commands/
   - [devops-manager](../workflows/agents/devops-manager.md) — orquestador y
     arquitecto de entornos; delega en `vps-manager` (runtime) e
     `iac-vps-expert` (IaC).
+  - [vps-manager](../workflows/agents/vps-manager.md) — administración de VPS y
+    despliegues (Docker, systemd, SSL, logs, backups) a través de SSH.
   - [iac-vps-expert](../workflows/agents/iac-vps-expert.md) — experto en IaC,
     Ansible y Docker Compose.
   - [opencode-expert](../workflows/agents/opencode-expert.md) — experto en la

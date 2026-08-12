@@ -271,6 +271,57 @@ while IFS= read -r -d '' file; do
 done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
 report "No orphan Markdown resources (excluding allowlist)" "$orphan_violations"
 
+# 15. No public IPv4 addresses in Markdown (potential operator infrastructure
+# leak). Private, loopback, link-local, documentation and CGNAT ranges are
+# allowed as examples; any other address is flagged.
+ip_is_public() {
+  local o1=$1 o2=$2 o3=$3 o4=$4 o
+  for o in "$o1" "$o2" "$o3" "$o4"; do
+    [[ "$o" =~ ^[0-9]{1,3}$ ]] || return 1
+    (( 10#$o > 255 )) && return 1
+  done
+  (( o1 == 0 || o1 == 10 || o1 == 127 )) && return 1                 # this/private/loopback
+  (( o1 == 169 && o2 == 254 )) && return 1                            # link-local
+  (( o1 == 172 && o2 >= 16 && o2 <= 31 )) && return 1                 # RFC 1918
+  (( o1 == 192 && o2 == 168 )) && return 1                            # RFC 1918
+  (( o1 == 100 && o2 >= 64 && o2 <= 127 )) && return 1                # CGNAT
+  (( o1 == 192 && o2 == 0 && (o3 == 0 || o3 == 2) )) && return 1      # IETF / TEST-NET-1
+  (( o1 == 198 && o2 == 51 && o3 == 100 )) && return 1                # TEST-NET-2
+  (( o1 == 203 && o2 == 0 && o3 == 113 )) && return 1                 # TEST-NET-3
+  (( o1 >= 224 )) && return 1                                         # multicast/reserved/broadcast
+  return 0
+}
+
+public_ip_violations=""
+while IFS= read -r -d '' file; do
+  while IFS= read -r ip; do
+    [[ -z "$ip" ]] && continue
+    IFS=. read -r p1 p2 p3 p4 <<< "$ip"
+    if ip_is_public "$p1" "$p2" "$p3" "$p4"; then
+      public_ip_violations="${public_ip_violations}${file}: $ip"$'\n'
+    fi
+  done < <(grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' "$file" 2>/dev/null || true)
+done < <(find "$ROOT" -path "$ROOT/.git" -prune -o -name '*.md' -type f -print0)
+report "No public IPv4 addresses in Markdown" "$public_ip_violations"
+
+# 16. Operator-specific tokens/IPs/aliases must not appear (leak protection).
+# Reads a gitignored list file; skipped when absent (public clones, CI).
+SECRETS_FILE="$ROOT/.operator-secrets"
+secret_violations=""
+if [[ -f "$SECRETS_FILE" ]]; then
+  while IFS= read -r token; do
+    [[ -z "$token" || "$token" == \#* ]] && continue
+    matches=$(grep -rInF --exclude-dir='.git' --exclude='.operator-secrets' -- "$token" "$ROOT" 2>/dev/null || true)
+    if [[ -n "$matches" ]]; then
+      secret_violations="${secret_violations}token: $token"$'\n'"$matches"$'\n'
+    fi
+  done < "$SECRETS_FILE"
+  report "No operator tokens leaked in the repository" "$secret_violations"
+else
+  PASS=$((PASS + 1))
+  echo "PASS: No operator tokens leaked (skip: .operator-secrets absent)"
+fi
+
 # 13. No empty directories without a .gitkeep placeholder (Git does not track
 # empty directories).
 empty_dir_violations=""

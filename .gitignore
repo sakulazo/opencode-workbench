@@ -8,3 +8,6 @@ Thumbs.db
 
 # Logs y temporales
 *.log
+
+# Tokens/IPs del operador (check 16 de check-consistency.sh): nunca se versionan
+.operator-secrets

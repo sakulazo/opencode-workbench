@@ -112,6 +112,17 @@ repositorio:
   resolver a ficheros existentes. Plantillas y ejemplos están exentos por
   describir artefactos de proyectos externos.
 
+### Protección de fugas (checks 15 y 16)
+
+- IPs públicas: ninguna dirección IPv4 pública en los Markdown del repositorio.
+  Los rangos privados y de documentación (RFC 1918, loopback, link-local, CGNAT,
+  TEST-NET) están permitidos como ejemplos; cualquier otra IP se considera una
+  posible fuga de infraestructura del operador.
+- Tokens del operador: si existe `.operator-secrets` en la raíz (fichero local
+  gitignored con una IP/token por línea, `#` para comentarios), el script
+  comprueba que ninguno aparezca en el repositorio. Si el fichero no existe
+  (clones públicos, CI), el check se omite sin fallar.
+
 ## Criterios semánticos
 
 ### A. Idioma por tipo de recurso
