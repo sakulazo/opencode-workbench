@@ -39,6 +39,15 @@ backups):
 cp -r technologies/vps-management <proyecto>/.opencode/skills/vps-management/
 ```
 
+Otro skill del repertorio es
+[code-review](../core/code-review/SKILL.md), con checklists de revisión de
+código (corrección, seguridad, rendimiento, mantenibilidad, tests) y
+criterios de severidad:
+
+```bash
+cp -r core/code-review <proyecto>/.opencode/skills/code-review/
+```
+
 El `name` del frontmatter debe coincidir con el nombre del directorio
 (`sdd`). Tras instalarlo, el skill aparece en la lista de skills de las
 sesiones de OpenCode del proyecto y se carga bajo demanda.
@@ -96,6 +105,9 @@ está instalado, ya que fijan `agent: vps-manager` para enrutar la ejecución.
       Ansible y Docker Compose.
     - [opencode-expert](../workflows/agents/opencode-expert.md) — experto en la
       configuración de OpenCode (agentes, skills, comandos).
+    - [code-reviewer](../workflows/agents/code-reviewer.md) — revisa diffs,
+      PRs y commits (corrección, seguridad, rendimiento, mantenibilidad,
+      tests) y reporta hallazgos priorizados sin modificar el código.
 
 **Fronteras entre agentes**: `devops-manager` no solapa con el built-in `plan`
 (`plan` planifica tareas genéricas; `devops-manager` orquesta solo

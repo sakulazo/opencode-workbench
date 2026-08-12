@@ -32,7 +32,8 @@ conocimiento que no son agentes.
 - Ejecutan un dominio concreto cargando los skills de su ámbito.
 - **Repertorio**: [vps-manager](../workflows/agents/vps-manager.md),
   [iac-vps-expert](../workflows/agents/iac-vps-expert.md),
-  [opencode-expert](../workflows/agents/opencode-expert.md).
+  [opencode-expert](../workflows/agents/opencode-expert.md),
+  [code-reviewer](../workflows/agents/code-reviewer.md).
 
 ### Capa de conocimiento (skills)
 
@@ -49,9 +50,11 @@ graph TD
     ORCH --> VPS[vps-manager · specialist]
     ORCH --> IAC[iac-vps-expert · specialist]
     OP --> PROC[sdd-driver · process]
+    OP --> CR[code-reviewer · specialist]
     VPS --> S_VPS[vps-management · skill]
     IAC --> S_VPS
     PROC --> S_SDD[sdd · skill]
+    CR --> S_CR[code-review · skill]
 ```
 
 ## Matriz de delegación
@@ -63,6 +66,7 @@ graph TD
 | [vps-manager](../workflows/agents/vps-manager.md) | specialist | all | — | `vps-management` |
 | [iac-vps-expert](../workflows/agents/iac-vps-expert.md) | specialist | all | — | `vps-management` |
 | [opencode-expert](../workflows/agents/opencode-expert.md) | specialist | subagent | — | — |
+| [code-reviewer](../workflows/agents/code-reviewer.md) | specialist | subagent | — | `code-review` |
 
 ## Fronteras entre agentes
 
@@ -74,6 +78,8 @@ graph TD
   declarativo*. `vps-manager` opera el servidor (desplegar, reiniciar, SSL,
   logs, backups); `iac-vps-expert` escribe y valida Ansible/compose/Makefile y
   no ejecuta `up`/`down` en producción.
+- **`code-reviewer` vs `build`**: `build` implementa; `code-reviewer` solo
+  evalúa y reporta (`edit: deny`), como control de calidad antes del merge.
 
 ## Reglas de coherencia role ↔ mode
 
