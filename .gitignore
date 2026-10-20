@@ -11,3 +11,13 @@ Thumbs.db
 
 # Tokens/IPs del operador (check 16 de check-consistency.sh): nunca se versionan
 .operator-secrets
+
+# Credenciales de servicios locales. `service.json` lleva la contrasena del
+# servicio en claro: es configuracion local, no conocimiento, y este repo tiene
+# el remoto PUBLICO. Ignorado, no borrado: sigue haciendo falta en la maquina.
+service.json
+*.service.json
+**/service.json
+.env
+.env.*
+*.secret.json
